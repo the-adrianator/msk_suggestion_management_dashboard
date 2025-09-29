@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminUser, Suggestion } from "@/types";
+import { AdminUser, Employee, Suggestion } from "@/types";
 import PermissionGuard from "./PermissionGuard";
 import { useRouter } from "next/navigation";
 import { PlusIcon, ListBulletIcon } from "@heroicons/react/24/solid";
@@ -11,19 +11,23 @@ import {
 } from "@/utils/themeClasses";
 import DashboardOverview from "@/components/DashboardOverview";
 import { getSuggestions } from "@/services/suggestionService";
+import { getEmployees } from "@/services/employeeService";
 import { useEffect, useState } from "react";
 import { useSuggestions } from "@/hooks/useSuggestions";
+import RecentSuggestions from "./RecentSuggestions";
+import Toast from "@/components/Toast";
 
 interface DashboardPageProps {
   admin: AdminUser;
 }
 
 export default function DashboardPage({ admin }: DashboardPageProps) {
-  const { suggestions, isLoading, error, updateStatus } = useSuggestions();
   const { theme } = useTheme();
   const router = useRouter();
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const { suggestions, isLoading, error, updateStatus } = useSuggestions();
+  const [showAllRecent, setShowAllRecent] = useState(false);
   const [recentSuggestions, setRecentSuggestions] = useState<Suggestion[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error" | "info";
@@ -42,43 +46,24 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
     setToast(prev => ({ ...prev, isVisible: false }));
   };
 
-  const [stats, setStats] = useState({
-    total: 0,
-    pending: 0,
-    inProgress: 0,
-    completed: 0,
-    high: 0,
-    medium: 0,
-    low: 0,
-  });
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [suggestions] = await Promise.all([getSuggestions()]);
+        const [suggestions, employees] = await Promise.all([
+          getSuggestions(),
+          getEmployees(),
+        ]);
 
+        setEmployees(employees);
         setRecentSuggestions(
           suggestions
             .sort(
               (a, b) =>
                 new Date(b.dateUpdated).getTime() -
-                new Date(a.dateUpdated).getTime()
+                new Date(a.dateUpdated).getTime(),
             )
-            .slice(0, 6)
+            .slice(0, 6),
         );
-
-        // Calculate stats
-        const newStats = {
-          total: suggestions.length,
-          pending: suggestions.filter(s => s.status === "pending").length,
-          inProgress: suggestions.filter(s => s.status === "in_progress")
-            .length,
-          completed: suggestions.filter(s => s.status === "completed").length,
-          high: suggestions.filter(s => s.priority === "high").length,
-          medium: suggestions.filter(s => s.priority === "medium").length,
-          low: suggestions.filter(s => s.priority === "low").length,
-        };
-        setStats(newStats);
       } catch (error) {
         console.error("Failed to fetch data:", error);
         showToast("Failed to load dashboard data.", "error");
@@ -86,42 +71,6 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
     };
     fetchData();
   }, []);
-
-  const handleCreateSuggestion = (newSuggestion: Suggestion) => {
-    setRecentSuggestions(prev => {
-      const updated = [newSuggestion, ...prev]
-        .sort(
-          (a, b) =>
-            new Date(b.dateUpdated).getTime() -
-            new Date(a.dateUpdated).getTime()
-        )
-        .slice(0, 6);
-      return updated;
-    });
-    setStats(prev => ({
-      ...prev,
-      total: prev.total + 1,
-      [newSuggestion.status === "pending"
-        ? "pending"
-        : newSuggestion.status === "in_progress"
-          ? "inProgress"
-          : "completed"]:
-        prev[
-          newSuggestion.status === "pending"
-            ? "pending"
-            : newSuggestion.status === "in_progress"
-              ? "inProgress"
-              : "completed"
-        ] + 1,
-      [newSuggestion.priority]: prev[newSuggestion.priority] + 1,
-    }));
-    setToast({
-      message: "Suggestion created successfully!",
-      type: "success",
-      isVisible: true,
-    });
-    setIsCreateModalOpen(false);
-  };
 
   return (
     <div className="max-w-full mx-auto">
@@ -160,6 +109,23 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
       </div>
 
       <DashboardOverview suggestions={suggestions} />
+
+      <RecentSuggestions
+        recentSuggestions={recentSuggestions}
+        showAllRecent={showAllRecent}
+        setShowAllRecent={setShowAllRecent}
+        theme={theme}
+        employees={employees}
+        admin={admin}
+        suggestions={suggestions}
+      />
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+      />
     </div>
   );
 }
