@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { ReactNode } from 'react';
-import { hasPermission } from '@/services/authService';
+import { ReactNode } from "react";
+import { hasPermission } from "@/services/authService";
 
 interface PermissionGuardProps {
   children: ReactNode;
@@ -24,7 +24,7 @@ export default function PermissionGuard({
 export function CreateSuggestionGuard({
   children,
   fallback,
-}: Omit<PermissionGuardProps, 'permission'>) {
+}: Omit<PermissionGuardProps, "permission">) {
   return (
     <PermissionGuard permission="create_suggestions" fallback={fallback}>
       {children}
@@ -35,7 +35,7 @@ export function CreateSuggestionGuard({
 export function UpdateStatusGuard({
   children,
   fallback,
-}: Omit<PermissionGuardProps, 'permission'>) {
+}: Omit<PermissionGuardProps, "permission">) {
   return (
     <PermissionGuard permission="update_status" fallback={fallback}>
       {children}
@@ -46,7 +46,7 @@ export function UpdateStatusGuard({
 export function ViewAllGuard({
   children,
   fallback,
-}: Omit<PermissionGuardProps, 'permission'>) {
+}: Omit<PermissionGuardProps, "permission">) {
   return (
     <PermissionGuard permission="view_all" fallback={fallback}>
       {children}

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { mockSignIn } from '@/services/authService';
-import { AdminUser } from '@/types';
+import { useState } from "react";
+import { mockSignIn } from "@/services/authService";
+import { AdminUser } from "@/types";
 
 interface LoginScreenProps {
   onLogin: (admin: AdminUser) => void;
@@ -10,29 +10,29 @@ interface LoginScreenProps {
 
 // Login form for mock admin authentication with demo credential helper
 export default function LoginScreen({ onLogin }: LoginScreenProps) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
     try {
       const admin = await mockSignIn(email);
       if (admin) onLogin(admin);
-      else setError('Invalid email or password');
+      else setError("Invalid email or password");
     } catch {
-      setError('Login failed. Please try again.');
+      setError("Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   const useDemoCredentials = () => {
-    setEmail('hsmanager@company.com');
-    setPassword('admin123');
+    setEmail("hsmanager@company.com");
+    setPassword("admin123");
   };
 
   return (
@@ -99,7 +99,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
               disabled={isLoading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? "Signing in..." : "Sign In"}
             </button>
           </div>
 
