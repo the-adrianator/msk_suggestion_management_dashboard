@@ -43,11 +43,12 @@ export default function DashboardOverview({
   suggestions,
 }: DashboardOverviewProps) {
   const { theme } = useTheme();
+
   const stats = useMemo(() => {
     const total = suggestions.length;
     const pending = suggestions.filter(s => s.status === "pending").length;
     const inProgress = suggestions.filter(
-      s => s.status === "in_progress"
+      s => s.status === "in_progress",
     ).length;
     const completed = suggestions.filter(s => s.status === "completed").length;
     const dismissed = suggestions.filter(s => s.status === "dismissed").length;
@@ -55,14 +56,14 @@ export default function DashboardOverview({
     // Priority breakdown
     const highPriority = suggestions.filter(s => s.priority === "high").length;
     const mediumPriority = suggestions.filter(
-      s => s.priority === "medium"
+      s => s.priority === "medium",
     ).length;
     const lowPriority = suggestions.filter(s => s.priority === "low").length;
 
     // Source breakdown
     const vidaSuggestions = suggestions.filter(s => s.source === "vida").length;
     const adminSuggestions = suggestions.filter(
-      s => s.source === "admin"
+      s => s.source === "admin",
     ).length;
 
     // Overdue suggestions (pending for more than 30 days)
@@ -180,7 +181,7 @@ export default function DashboardOverview({
           >
             Priority Breakdown
           </h3>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {statCards.priority.map(item => (
               <StatCard key={item.title} {...item} />
             ))}

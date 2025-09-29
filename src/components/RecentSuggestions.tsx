@@ -1,30 +1,78 @@
 import { AdminUser, Employee, Suggestion, Theme } from "@/types";
 import { getThemeClasses, getThemeTextClasses } from "@/utils/themeClasses";
 import SuggestionCard from "@/components/SuggestionCard";
+import { type Dispatch, type SetStateAction, useState } from "react";
+import StatusUpdateModal from "@/components/StatusUpdateModal";
 
 interface RecentSuggestionsProps {
   recentSuggestions: Suggestion[];
+  setRecentSuggestions: Dispatch<SetStateAction<Suggestion[]>>;
   showAllRecent: boolean;
   setShowAllRecent: (showAllRecent: boolean) => void;
   theme: Theme;
   employees: Employee[];
   admin: AdminUser;
-  handleOpenStatusModal: (suggestion: Suggestion) => void;
+  suggestions: Suggestion[];
+  setToast: Dispatch<
+    SetStateAction<{
+      message: string;
+      type: "success" | "error" | "info";
+      isVisible: boolean;
+    }>
+  >;
+  onSuggestionUpdate: () => void;
 }
 
 const RecentSuggestions = ({
   recentSuggestions,
+  setRecentSuggestions,
   showAllRecent,
   setShowAllRecent,
   theme,
   employees,
   admin,
-  handleOpenStatusModal,
+  setToast,
+  onSuggestionUpdate,
 }: RecentSuggestionsProps) => {
+  const [selectedSuggestion, setSelectedSuggestion] =
+    useState<Suggestion | null>(null);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const getEmployeeName = (employeeId: string) => {
     const employee = employees.find(emp => emp.id === employeeId);
     return employee?.name || "Unknown Employee";
   };
+
+  const getEmployeeDepartment = (employeeId: string) => {
+    const employee = employees.find(emp => emp.id === employeeId);
+    return employee?.department || "Unknown Department";
+  };
+
+  const handleOpenStatusModal = (suggestion: Suggestion) => {
+    setSelectedSuggestion(suggestion);
+    setIsStatusModalOpen(true);
+  };
+
+  const handleCloseStatusModal = () => {
+    setIsStatusModalOpen(false);
+    setSelectedSuggestion(null);
+  };
+
+  const handleUpdateSuggestion = (updatedSuggestion: Suggestion) => {
+    setRecentSuggestions(prev =>
+      prev.map(suggestion =>
+        suggestion.id === updatedSuggestion.id ? updatedSuggestion : suggestion,
+      ),
+    );
+    // Trigger refresh of main suggestions data to update stat cards
+    onSuggestionUpdate();
+    setToast({
+      message: "Suggestion updated successfully!",
+      type: "success",
+      isVisible: true,
+    });
+    handleCloseStatusModal();
+  };
+
   return (
     <section className="mt-8 mb-4">
       <div className="flex justify-between items-center mb-4">
@@ -77,17 +125,23 @@ const RecentSuggestions = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 items-start">
         {recentSuggestions
           .slice(0, showAllRecent ? recentSuggestions.length : 3)
-          .map(suggestion => (
-            <SuggestionCard
-              key={suggestion.id}
-              suggestion={suggestion}
-              employeeName={getEmployeeName(suggestion.employeeId)}
-              admin={admin}
-              onUpdate={handleOpenStatusModal}
-              isExpanded={false} // All cards start collapsed
-              showExpandButton={true} // Enable individual card expand/collapse
-            />
-          ))}
+          .map(suggestion => {
+            console.log("suggestion", suggestion);
+            return (
+              <SuggestionCard
+                key={suggestion.id}
+                suggestion={suggestion}
+                employeeName={getEmployeeName(suggestion.employeeId)}
+                employeeDepartment={getEmployeeDepartment(
+                  suggestion.employeeId,
+                )}
+                admin={admin}
+                onUpdate={handleOpenStatusModal}
+                isExpanded={false} // All cards start collapsed
+                showExpandButton={true} // Enable individual card expand/collapse
+              />
+            );
+          })}
         {recentSuggestions.length === 0 && (
           <div className="lg:col-span-3">
             <p
@@ -98,6 +152,15 @@ const RecentSuggestions = ({
           </div>
         )}
       </div>
+
+      {selectedSuggestion && (
+        <StatusUpdateModal
+          suggestion={selectedSuggestion}
+          isOpen={isStatusModalOpen}
+          onClose={handleCloseStatusModal}
+          onUpdate={handleUpdateSuggestion}
+        />
+      )}
     </section>
   );
 };

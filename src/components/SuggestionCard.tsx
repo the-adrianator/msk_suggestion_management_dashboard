@@ -17,6 +17,7 @@ import {
 interface SuggestionCardProps {
   suggestion: Suggestion;
   employeeName: string;
+  employeeDepartment?: string;
   admin: AdminUser;
   onUpdate: (suggestion: Suggestion) => void;
   isExpanded?: boolean;
@@ -27,6 +28,7 @@ interface SuggestionCardProps {
 export default function SuggestionCard({
   suggestion,
   employeeName,
+  employeeDepartment,
   onUpdate,
   isExpanded = false,
   showExpandButton = false,
@@ -179,13 +181,11 @@ export default function SuggestionCard({
               {employeeName}
             </h3>
           )}
-          {isCardExpanded && (
-            <p
-              className={`text-sm ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
-            >
-              Employee • Department
-            </p>
-          )}
+          <p
+            className={`text-sm ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
+          >
+            {employeeDepartment || "Unknown Department"}
+          </p>
         </div>
         <div className="ml-4 flex items-center space-x-2">
           {getStatusBadge(suggestion)}
@@ -232,7 +232,7 @@ export default function SuggestionCard({
       {/* Description */}
       <div className="mb-3">
         <p
-          className={`text-sm ${getThemeClasses("text-gray-700", "text-gray-300", theme)}`}
+          className={`text-sm ${getThemeClasses("text-gray-700", "text-gray-300", theme)} ${!isCardExpanded && "truncate"}`}
         >
           {suggestion.description}
         </p>

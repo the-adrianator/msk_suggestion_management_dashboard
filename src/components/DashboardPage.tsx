@@ -1,7 +1,7 @@
 "use client";
 
 import { AdminUser, Employee, Suggestion } from "@/types";
-import PermissionGuard from "./PermissionGuard";
+import PermissionGuard from "@/components/PermissionGuard";
 import { useRouter } from "next/navigation";
 import { PlusIcon, ListBulletIcon } from "@heroicons/react/24/solid";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useSuggestions } from "@/hooks/useSuggestions";
 import RecentSuggestions from "./RecentSuggestions";
 import Toast from "@/components/Toast";
+import CreateSuggestionModal from "@/components/CreateSuggestionModal";
 
 interface DashboardPageProps {
   admin: AdminUser;
@@ -24,8 +25,9 @@ interface DashboardPageProps {
 export default function DashboardPage({ admin }: DashboardPageProps) {
   const { theme } = useTheme();
   const router = useRouter();
-  const { suggestions, isLoading, error, updateStatus } = useSuggestions();
+  const { suggestions, reload } = useSuggestions();
   const [showAllRecent, setShowAllRecent] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [recentSuggestions, setRecentSuggestions] = useState<Suggestion[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [toast, setToast] = useState<{
@@ -72,6 +74,33 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
     fetchData();
   }, []);
 
+  const handleCreateSuggestion = (newSuggestion: Suggestion) => {
+    // Update recent suggestions list
+    setRecentSuggestions(prev => {
+      const updated = [newSuggestion, ...prev]
+        .sort(
+          (a, b) =>
+            new Date(b.dateUpdated).getTime() -
+            new Date(a.dateUpdated).getTime(),
+        )
+        .slice(0, 6);
+      return updated;
+    });
+
+    // Reload main suggestions data to update stat cards
+    reload();
+
+    // Show success toast
+    setToast({
+      message: "Suggestion created successfully!",
+      type: "success",
+      isVisible: true,
+    });
+
+    // Close modal
+    setIsCreateModalOpen(false);
+  };
+
   return (
     <div className="max-w-full mx-auto">
       {/* Header Section */}
@@ -91,7 +120,7 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
         <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
           <PermissionGuard permission="create_suggestions">
             <button
-              onClick={() => {}}
+              onClick={() => setIsCreateModalOpen(true)}
               className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto cursor-pointer"
             >
               <PlusIcon className="w-4 h-4 mr-2" />
@@ -112,12 +141,22 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
 
       <RecentSuggestions
         recentSuggestions={recentSuggestions}
+        setRecentSuggestions={setRecentSuggestions}
         showAllRecent={showAllRecent}
         setShowAllRecent={setShowAllRecent}
         theme={theme}
         employees={employees}
         admin={admin}
         suggestions={suggestions}
+        setToast={setToast}
+        onSuggestionUpdate={reload}
+      />
+
+      <CreateSuggestionModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSuccess={handleCreateSuggestion}
+        admin={admin}
       />
 
       <Toast
