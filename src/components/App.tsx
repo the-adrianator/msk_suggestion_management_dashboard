@@ -5,6 +5,7 @@ import { AdminUser } from "@/types";
 import { getCurrentAdmin } from "@/services/authService";
 import LoginScreen from "@/components/LoginScreen";
 import DashboardLayout from "@/components/DashboardLayout";
+import DashboardPage from "@/components/DashboardPage";
 
 export default function App() {
   const [admin, setAdmin] = useState<AdminUser | null>(null);
@@ -38,5 +39,9 @@ export default function App() {
     return <LoginScreen onLogin={handleLogin} />;
   }
 
-  return <DashboardLayout admin={admin}>dashboard page</DashboardLayout>;
+  return (
+    <DashboardLayout admin={admin}>
+      <DashboardPage admin={admin} />
+    </DashboardLayout>
+  );
 }
