@@ -7,7 +7,7 @@ const localStorageMock = {
   removeItem: jest.fn(),
   clear: jest.fn(),
 };
-// @ts-ignore
+// @ts-expect-error - Mocking localStorage for testing
 global.localStorage = localStorageMock;
 
 // Mock matchMedia for theme tests

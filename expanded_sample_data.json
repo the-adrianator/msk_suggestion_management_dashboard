@@ -1,6 +1,5 @@
 {
-  "employees": [
-    {
+  "employees": [{
       "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
       "name": "Priya Patel",
       "department": "Engineering",
@@ -91,8 +90,7 @@
       "lastAssessment": "2024-01-17T09:15:00Z"
     }
   ],
-  "suggestions": [
-    {
+  "suggestions": [{
       "id": "550e8400-e29b-41d4-a716-446655440001",
       "employeeId": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
       "type": "equipment",
@@ -284,7 +282,7 @@
       "employeeId": "6ba7b811-9dad-11d1-80b4-00c04fd430c8",
       "type": "equipment",
       "description": "Adjustable document holder to reduce neck strain when referencing papers",
-      "status": "overdue",
+      "status": "pending",
       "priority": "low",
       "source": "vida",
       "dateCreated": "2023-12-15T09:00:00Z",
@@ -428,19 +426,17 @@
       "estimatedCost": "£0.00"
     }
   ],
-  "adminUsers": [
-    {
-      "id": "admin001",
-      "email": "hsmanager@company.com",
-      "name": "Alex Thompson",
-      "role": "Health & Safety Manager",
-      "department": "HR",
-      "permissions": [
-        "create_suggestions",
-        "update_status",
-        "view_all",
-        "generate_reports"
-      ]
-    }
-  ]
+  "adminUsers": [{
+    "id": "admin001",
+    "email": "hsmanager@company.com",
+    "name": "Alex Thompson",
+    "role": "Health & Safety Manager",
+    "department": "HR",
+    "permissions": [
+      "create_suggestions",
+      "update_status",
+      "view_all",
+      "generate_reports"
+    ]
+  }]
 }
