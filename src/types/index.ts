@@ -79,3 +79,18 @@ export interface UpdateSuggestionData {
   notes?: string;
   estimatedCost?: string;
 }
+
+// Suggestion with employee data (for display purposes)
+export interface SuggestionWithEmployee extends Suggestion {
+  employee: {
+    name: string;
+    department: string;
+    riskLevel: "high" | "medium" | "low";
+  };
+}
+
+// Status update result
+export interface StatusUpdateResult {
+  success: boolean;
+  error?: string;
+}
