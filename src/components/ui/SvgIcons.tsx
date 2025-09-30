@@ -433,6 +433,78 @@ const XMark = ({ className = "w-5 h-5" }: { className?: string }) => {
   );
 };
 
+const Refresh = ({ className }: SvgIconProps) => {
+  return (
+    <svg
+      className={`w-4 h-4 ${className}`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+      />
+    </svg>
+  );
+};
+
+const Table = ({ className }: SvgIconProps) => {
+  return (
+    <svg
+      className={className || "h-6 w-6"}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M3 10h18M3 14h18m-9-4v8m-7 4V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1z"
+      />
+    </svg>
+  );
+};
+
+const Grid = ({ className }: SvgIconProps) => {
+  return (
+    <svg
+      className={className || "h-6 w-6"}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+      />
+    </svg>
+  );
+};
+
+const PlusIcon = ({ className }: SvgIconProps) => {
+  return (
+    <svg
+      className={className || "h-6 w-6"}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M12 4v16m8-8H4"
+      />
+    </svg>
+  );
+};
+
 export {
   Arrow,
   Document,
@@ -459,4 +531,8 @@ export {
   XCircle,
   CheckMark,
   XMark,
+  Refresh,
+  Table,
+  Grid,
+  PlusIcon,
 };

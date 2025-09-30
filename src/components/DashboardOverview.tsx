@@ -174,14 +174,14 @@ export default function DashboardOverview({
       </div>
 
       {/* Priority and source breakdown */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 xs:grid-cols-2">
         <div>
           <h3
             className={`text-lg leading-6 font-medium ${getThemeClasses("text-gray-900", "text-white", theme)} mb-4`}
           >
             Priority Breakdown
           </h3>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
             {statCards.priority.map(item => (
               <StatCard key={item.title} {...item} />
             ))}
@@ -194,7 +194,7 @@ export default function DashboardOverview({
           >
             Source Breakdown
           </h3>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {statCards.source.map(item => (
               <StatCard key={item.title} {...item} />
             ))}

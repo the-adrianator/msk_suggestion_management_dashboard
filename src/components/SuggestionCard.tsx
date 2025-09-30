@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { Suggestion } from "@/types";
-import { getRelativeTime, isOverdue } from "@/utils/dates";
+import { getRelativeTime } from "@/utils/dates";
 import { formatCurrency } from "@/utils/currency";
-import { AdminUser } from "@/types";
 import PermissionGuard from "./PermissionGuard";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
@@ -13,12 +12,16 @@ import {
   getThemeBorderClasses,
   getThemeClasses,
 } from "@/utils/themeClasses";
+import {
+  getStatusBadge,
+  getPriorityBadge,
+  getTypeBadge,
+} from "@/components/ui/Badges";
 
 interface SuggestionCardProps {
   suggestion: Suggestion;
   employeeName: string;
   employeeDepartment?: string;
-  admin: AdminUser;
   onUpdate: (suggestion: Suggestion) => void;
   isExpanded?: boolean;
   showExpandButton?: boolean;
@@ -36,131 +39,6 @@ export default function SuggestionCard({
 }: SuggestionCardProps) {
   const { theme } = useTheme();
   const [isCardExpanded, setIsCardExpanded] = useState(isExpanded);
-
-  const getStatusBadge = (suggestion: Suggestion) => {
-    const isOverdueSuggestion = isOverdue(
-      suggestion.dateCreated,
-      suggestion.status,
-    );
-
-    const pendingThemeClass = getThemeClasses(
-      "bg-yellow-100 text-yellow-800",
-      "bg-yellow-900/20 text-yellow-300",
-      theme,
-    );
-    const inProgressThemeClass = getThemeClasses(
-      "bg-blue-100 text-blue-800",
-      "bg-blue-900/20 text-blue-300",
-      theme,
-    );
-    const completedThemeClass = getThemeClasses(
-      "bg-green-100 text-green-800",
-      "bg-green-900/20 text-green-300",
-      theme,
-    );
-    const dismissedThemeClass = getThemeClasses(
-      "bg-red-100 text-red-800",
-      "bg-red-900/20 text-red-300",
-      theme,
-    );
-    const overdueThemeClass = getThemeClasses(
-      "bg-red-100 text-red-800",
-      "bg-red-900/20 text-red-300",
-      theme,
-    );
-
-    const statusClass = {
-      pending: pendingThemeClass,
-      in_progress: inProgressThemeClass,
-      completed: completedThemeClass,
-      dismissed: dismissedThemeClass,
-    };
-
-    return (
-      <div className="flex items-center space-x-2">
-        <span
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClass[suggestion.status]}`}
-        >
-          {suggestion.status.replace("_", " ")}
-        </span>
-        {isOverdueSuggestion && (
-          <span
-            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${overdueThemeClass}`}
-          >
-            Overdue
-          </span>
-        )}
-      </div>
-    );
-  };
-
-  const getPriorityBadge = (priority: string) => {
-    const lowThemeClass = getThemeClasses(
-      "bg-gray-100 text-gray-800",
-      "bg-gray-900/20 text-gray-300",
-      theme,
-    );
-    const mediumThemeClass = getThemeClasses(
-      "bg-yellow-100 text-yellow-800",
-      "bg-yellow-900/20 text-yellow-300",
-      theme,
-    );
-    const highThemeClass = getThemeClasses(
-      "bg-red-100 text-red-800",
-      "bg-red-900/20 text-red-300",
-      theme,
-    );
-    const priorityClass = {
-      low: lowThemeClass,
-      medium: mediumThemeClass,
-      high: highThemeClass,
-    };
-
-    return (
-      <span
-        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${priorityClass[priority as keyof typeof priorityClass]}`}
-      >
-        {priority}
-      </span>
-    );
-  };
-
-  const getTypeBadge = (type: string) => {
-    const exerciseThemeClass = getThemeClasses(
-      "bg-green-100 text-green-800",
-      "bg-green-900/20 text-green-300",
-      theme,
-    );
-    const equipmentThemeClass = getThemeClasses(
-      "bg-blue-100 text-blue-800",
-      "bg-blue-900/20 text-blue-300",
-      theme,
-    );
-    const behaviouralThemeClass = getThemeClasses(
-      "bg-purple-100 text-purple-800",
-      "bg-purple-900/20 text-purple-300",
-      theme,
-    );
-    const lifestyleThemeClass = getThemeClasses(
-      "bg-orange-100 text-orange-800",
-      "bg-orange-900/20 text-orange-300",
-      theme,
-    );
-    const typeClass = {
-      exercise: exerciseThemeClass,
-      equipment: equipmentThemeClass,
-      behavioural: behaviouralThemeClass,
-      lifestyle: lifestyleThemeClass,
-    };
-
-    return (
-      <span
-        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${typeClass[type as keyof typeof typeClass]}`}
-      >
-        {type}
-      </span>
-    );
-  };
 
   return (
     <div
@@ -188,7 +66,7 @@ export default function SuggestionCard({
           </p>
         </div>
         <div className="ml-4 flex items-center space-x-2">
-          {getStatusBadge(suggestion)}
+          {getStatusBadge(suggestion, theme)}
           {showExpandButton && (
             <button
               onClick={() => setIsCardExpanded(!isCardExpanded)}
@@ -240,8 +118,8 @@ export default function SuggestionCard({
 
       {/* Badges row */}
       <div className="flex flex-wrap gap-2 mb-3">
-        {getTypeBadge(suggestion.type)}
-        {getPriorityBadge(suggestion.priority)}
+        {getTypeBadge(suggestion.type, theme)}
+        {getPriorityBadge(suggestion.priority, theme)}
         <span
           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getThemeClasses("bg-gray-100 text-gray-800", "bg-gray-900/20 text-gray-300", theme)}`}
         >
