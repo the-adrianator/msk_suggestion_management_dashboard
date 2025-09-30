@@ -32,8 +32,8 @@ export function useSuggestions() {
   // Update suggestion status with optimistic UI
   const updateStatus = async (id: string, status: string, notes?: string) => {
     // Optimistic update
-    setSuggestions((prev) =>
-      prev.map((suggestion) => {
+    setSuggestions(prev =>
+      prev.map(suggestion => {
         if (suggestion.id === id) {
           return {
             ...suggestion,
@@ -60,8 +60,8 @@ export function useSuggestions() {
       );
       if (!result.success) {
         // Revert optimistic update on failure
-        setSuggestions((prev) =>
-          prev.map((suggestion) => {
+        setSuggestions(prev =>
+          prev.map(suggestion => {
             if (suggestion.id === id) {
               // Revert to original state - would need to store original state
               // For now, just reload the data
@@ -74,8 +74,8 @@ export function useSuggestions() {
       }
     } catch (err) {
       // Revert optimistic update on failure
-      setSuggestions((prev) =>
-        prev.map((suggestion) => {
+      setSuggestions(prev =>
+        prev.map(suggestion => {
           if (suggestion.id === id) {
             // Revert to original state - would need to store original state
             // For now, just reload the data

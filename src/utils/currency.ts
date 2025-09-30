@@ -2,9 +2,9 @@
 
 // Formats a numeric value or string as British pound currency
 export function formatCurrency(value: string | number): string {
-  if (typeof value === 'string') {
+  if (typeof value === "string") {
     // If already formatted with £ symbol, return as is
-    if (value.startsWith('£')) {
+    if (value.startsWith("£")) {
       return value;
     }
     // Try to parse numeric value from string
@@ -22,7 +22,7 @@ export function formatCurrency(value: string | number): string {
 // Parses a currency string to extract the numeric value
 export function parseCurrency(currencyString: string): number | null {
   // Remove £ symbol and parse
-  const cleanValue = currencyString.replace(/£/g, '').trim();
+  const cleanValue = currencyString.replace(/£/g, "").trim();
   const numericValue = parseFloat(cleanValue);
 
   return isNaN(numericValue) ? null : numericValue;

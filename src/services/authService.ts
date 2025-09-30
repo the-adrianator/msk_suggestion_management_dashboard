@@ -24,8 +24,8 @@ const MOCK_ADMINS: AdminUser[] = [
 
 // Simulates sign-in and persists a session to localStorage
 export async function mockSignIn(email: string): Promise<AdminUser | null> {
-  await new Promise((resolve) => setTimeout(resolve, 300));
-  const admin = MOCK_ADMINS.find((a) => a.email === email) || null;
+  await new Promise(resolve => setTimeout(resolve, 300));
+  const admin = MOCK_ADMINS.find(a => a.email === email) || null;
   if (admin && typeof window !== "undefined") {
     localStorage.setItem(
       "adminSession",

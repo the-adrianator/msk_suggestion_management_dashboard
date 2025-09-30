@@ -6,17 +6,17 @@ import {
   query,
   orderBy,
   where,
-} from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Employee } from '@/types';
+} from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { Employee } from "@/types";
 
-const COLLECTION_NAME = 'employees';
+const COLLECTION_NAME = "employees";
 
 // Retrieves all employees from Firestore, sorted by name
 export async function getEmployees(): Promise<Employee[]> {
   try {
     const employeesRef = collection(db, COLLECTION_NAME);
-    const q = query(employeesRef, orderBy('name', 'asc'));
+    const q = query(employeesRef, orderBy("name", "asc"));
     const querySnapshot = await getDocs(q);
 
     return querySnapshot.docs.map(doc => ({
@@ -24,14 +24,14 @@ export async function getEmployees(): Promise<Employee[]> {
       ...doc.data(),
     })) as Employee[];
   } catch (error) {
-    console.error('Error fetching employees:', error);
-    throw new Error('Failed to fetch employees');
+    console.error("Error fetching employees:", error);
+    throw new Error("Failed to fetch employees");
   }
 }
 
 // Retrieves a single employee by their ID
 export async function getEmployeeById(
-  employeeId: string
+  employeeId: string,
 ): Promise<Employee | null> {
   try {
     const employeeRef = doc(db, COLLECTION_NAME, employeeId);
@@ -46,21 +46,21 @@ export async function getEmployeeById(
 
     return null;
   } catch (error) {
-    console.error('Error fetching employee:', error);
-    throw new Error('Failed to fetch employee');
+    console.error("Error fetching employee:", error);
+    throw new Error("Failed to fetch employee");
   }
 }
 
 // Retrieves employees filtered by department
 export async function getEmployeesByDepartment(
-  department: string
+  department: string,
 ): Promise<Employee[]> {
   try {
     const employeesRef = collection(db, COLLECTION_NAME);
     const q = query(
       employeesRef,
-      where('department', '==', department),
-      orderBy('name', 'asc')
+      where("department", "==", department),
+      orderBy("name", "asc"),
     );
     const querySnapshot = await getDocs(q);
 
@@ -69,21 +69,21 @@ export async function getEmployeesByDepartment(
       ...doc.data(),
     })) as Employee[];
   } catch (error) {
-    console.error('Error fetching employees by department:', error);
-    throw new Error('Failed to fetch employees by department');
+    console.error("Error fetching employees by department:", error);
+    throw new Error("Failed to fetch employees by department");
   }
 }
 
 // Retrieves employees filtered by risk level
 export async function getEmployeesByRiskLevel(
-  riskLevel: 'high' | 'medium' | 'low'
+  riskLevel: "high" | "medium" | "low",
 ): Promise<Employee[]> {
   try {
     const employeesRef = collection(db, COLLECTION_NAME);
     const q = query(
       employeesRef,
-      where('riskLevel', '==', riskLevel),
-      orderBy('name', 'asc')
+      where("riskLevel", "==", riskLevel),
+      orderBy("name", "asc"),
     );
     const querySnapshot = await getDocs(q);
 
@@ -92,7 +92,7 @@ export async function getEmployeesByRiskLevel(
       ...doc.data(),
     })) as Employee[];
   } catch (error) {
-    console.error('Error fetching employees by risk level:', error);
-    throw new Error('Failed to fetch employees by risk level');
+    console.error("Error fetching employees by risk level:", error);
+    throw new Error("Failed to fetch employees by risk level");
   }
 }

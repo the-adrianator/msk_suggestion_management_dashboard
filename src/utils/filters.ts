@@ -6,7 +6,7 @@ export function filterSuggestions(
   filters: SuggestionFilters,
   employees?: Array<{ id: string; name: string }>,
 ): Suggestion[] {
-  return suggestions.filter((suggestion) => {
+  return suggestions.filter(suggestion => {
     // Employee filter
     if (filters.employee && suggestion.employeeId !== filters.employee) {
       return false;
@@ -35,9 +35,7 @@ export function filterSuggestions(
     // Free-text search across multiple fields
     if (filters.search) {
       const searchTerm = filters.search.toLowerCase();
-      const employee = employees?.find(
-        (emp) => emp.id === suggestion.employeeId,
-      );
+      const employee = employees?.find(emp => emp.id === suggestion.employeeId);
       const employeeName = employee?.name || "";
 
       const searchableFields = [

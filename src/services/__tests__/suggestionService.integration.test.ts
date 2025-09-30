@@ -166,7 +166,7 @@ describe("suggestion validation", () => {
   it("should validate suggestion type", () => {
     const validTypes = ["exercise", "equipment", "behavioural", "lifestyle"];
 
-    validTypes.forEach((type) => {
+    validTypes.forEach(type => {
       const suggestion = {
         ...mockSuggestion,
         type: type as "exercise" | "equipment" | "behavioural" | "lifestyle",
@@ -178,7 +178,7 @@ describe("suggestion validation", () => {
   it("should validate suggestion status", () => {
     const validStatuses = ["pending", "in_progress", "completed", "dismissed"];
 
-    validStatuses.forEach((status) => {
+    validStatuses.forEach(status => {
       const suggestion = {
         ...mockSuggestion,
         status: status as "pending" | "in_progress" | "completed" | "dismissed",
@@ -190,7 +190,7 @@ describe("suggestion validation", () => {
   it("should validate suggestion priority", () => {
     const validPriorities = ["low", "medium", "high"];
 
-    validPriorities.forEach((priority) => {
+    validPriorities.forEach(priority => {
       const suggestion = {
         ...mockSuggestion,
         priority: priority as "low" | "medium" | "high",
@@ -202,7 +202,7 @@ describe("suggestion validation", () => {
   it("should validate suggestion source", () => {
     const validSources = ["vida", "admin"];
 
-    validSources.forEach((source) => {
+    validSources.forEach(source => {
       const suggestion = {
         ...mockSuggestion,
         source: source as "vida" | "admin",

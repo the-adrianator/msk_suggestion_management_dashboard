@@ -30,25 +30,25 @@ export default function StatCard({
   const textClassBlue = getThemeClasses(
     "text-blue-600",
     "text-blue-400",
-    theme
+    theme,
   );
 
   const bgClassGreen = getThemeClasses("bg-green-50", "bg-green-900/20", theme);
   const textClassGreen = getThemeClasses(
     "text-green-600",
     "text-green-400",
-    theme
+    theme,
   );
 
   const bgClassYellow = getThemeClasses(
     "bg-yellow-50",
     "bg-yellow-900/20",
-    theme
+    theme,
   );
   const textClassYellow = getThemeClasses(
     "text-yellow-600",
     "text-yellow-400",
-    theme
+    theme,
   );
 
   const bgClassRed = getThemeClasses("bg-red-50", "bg-red-900/20", theme);
@@ -57,12 +57,12 @@ export default function StatCard({
   const bgClassPurple = getThemeClasses(
     "bg-purple-50",
     "bg-purple-900/20",
-    theme
+    theme,
   );
   const textClassPurple = getThemeClasses(
     "text-purple-600",
     "text-purple-400",
-    theme
+    theme,
   );
 
   const colorClasses = {

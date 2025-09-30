@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 // Mock localStorage for tests
 const localStorageMock = {
@@ -11,7 +11,7 @@ const localStorageMock = {
 global.localStorage = localStorageMock;
 
 // Mock matchMedia for theme tests
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: jest.fn().mockImplementation(query => ({
     matches: false,

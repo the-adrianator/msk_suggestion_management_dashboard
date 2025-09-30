@@ -1,6 +1,6 @@
 "use client";
 
-import { Suggestion, AdminUser } from "@/types";
+import { Suggestion } from "@/types";
 import { formatDate, getRelativeTime } from "@/utils/dates";
 import { formatCurrency } from "@/utils/currency";
 import PermissionGuard from "./PermissionGuard";

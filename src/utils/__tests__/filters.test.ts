@@ -65,7 +65,7 @@ describe("filterSuggestions", () => {
     const filters: SuggestionFilters = { employee: "emp1" };
     const result = filterSuggestions(mockSuggestions, filters);
     expect(result).toHaveLength(2);
-    expect(result.every((s) => s.employeeId === "emp1")).toBe(true);
+    expect(result.every(s => s.employeeId === "emp1")).toBe(true);
   });
 
   it("should filter by category/type", () => {
@@ -86,14 +86,14 @@ describe("filterSuggestions", () => {
     const filters: SuggestionFilters = { source: "admin" };
     const result = filterSuggestions(mockSuggestions, filters);
     expect(result).toHaveLength(2);
-    expect(result.every((s) => s.source === "admin")).toBe(true);
+    expect(result.every(s => s.source === "admin")).toBe(true);
   });
 
   it("should filter by priority", () => {
     const filters: SuggestionFilters = { priority: "high" };
     const result = filterSuggestions(mockSuggestions, filters);
     expect(result).toHaveLength(2);
-    expect(result.every((s) => s.priority === "high")).toBe(true);
+    expect(result.every(s => s.priority === "high")).toBe(true);
   });
 
   it("should filter by search term", () => {

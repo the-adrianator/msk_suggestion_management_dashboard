@@ -16,7 +16,6 @@ import {
   Suggestion,
   CreateSuggestionData,
   UpdateSuggestionData,
-  SuggestionFilters,
   SuggestionWithEmployee,
   StatusUpdateResult,
 } from "@/types";
@@ -31,7 +30,7 @@ export async function getSuggestions(): Promise<Suggestion[]> {
     const q = query(suggestionsRef, orderBy("dateUpdated", "desc"));
     const querySnapshot = await getDocs(q);
 
-    return querySnapshot.docs.map((doc) => ({
+    return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
       // Convert Firestore timestamps to ISO strings
@@ -90,7 +89,7 @@ export async function getSuggestionsByEmployee(
     const q = query(suggestionsRef, where("employeeId", "==", employeeId));
     const querySnapshot = await getDocs(q);
 
-    const suggestions = querySnapshot.docs.map((doc) => ({
+    const suggestions = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
       // Convert Firestore timestamps to ISO strings
@@ -161,7 +160,7 @@ export async function updateSuggestion(
     }
 
     // Remove undefined values to avoid Firestore errors
-    Object.keys(updateFields).forEach((key) => {
+    Object.keys(updateFields).forEach(key => {
       if (updateFields[key] === undefined) {
         delete updateFields[key];
       }
@@ -229,7 +228,7 @@ export async function getSuggestionsByStatus(
     );
     const querySnapshot = await getDocs(q);
 
-    return querySnapshot.docs.map((doc) => ({
+    return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
       // Convert Firestore timestamps to ISO strings
