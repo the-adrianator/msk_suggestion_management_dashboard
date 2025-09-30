@@ -23,6 +23,7 @@ import {
   getThemeWarningTitleClasses,
 } from "@/utils/themeClasses";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useRouter } from "next/navigation";
 
 interface DashboardOverviewProps {
   suggestions: Suggestion[];
@@ -43,6 +44,7 @@ export default function DashboardOverview({
   suggestions,
 }: DashboardOverviewProps) {
   const { theme } = useTheme();
+  const router = useRouter();
 
   const stats = useMemo(() => {
     const total = suggestions.length;
@@ -207,11 +209,11 @@ export default function DashboardOverview({
         <div
           className={`${getThemeWarningBgClasses(theme)} border ${getThemeWarningBorderClasses(theme)} rounded-md p-4`}
         >
-          <div className="flex">
+          <div className="flex items-start justify-between">
             <div className="flex-shrink-0">
               <Overdue />
             </div>
-            <div className="ml-3">
+            <div className="ml-3 flex-1">
               <h3
                 className={`text-sm font-medium ${getThemeWarningTitleClasses(theme)}`}
               >
@@ -226,6 +228,14 @@ export default function DashboardOverview({
                   attention.
                 </p>
               </div>
+            </div>
+            <div className="my-auto">
+              <button
+                onClick={() => router.push("/suggestions?overdue=1")}
+                className="inline-flex items-center px-3 py-2 text-xs font-medium rounded-md bg-red-500 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer"
+              >
+                View Overdue
+              </button>
             </div>
           </div>
         </div>

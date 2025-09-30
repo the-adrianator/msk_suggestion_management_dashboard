@@ -87,7 +87,15 @@ export default function StatusUpdateModal({
       };
 
       await updateSuggestion(suggestion.id, updateData);
-      onUpdate(suggestion);
+
+      // Create updated suggestion object
+      const updatedSuggestion: Suggestion = {
+        ...suggestion,
+        ...updateData,
+        dateUpdated: new Date().toISOString(),
+      };
+
+      onUpdate(updatedSuggestion);
       onClose();
     } catch (err) {
       setError("Failed to update suggestion. Please try again.");

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   Suggestion,
   Employee,
@@ -11,7 +12,7 @@ import {
 import { getSuggestions } from "@/services/suggestionService";
 import { getEmployees } from "@/services/employeeService";
 import { filterSuggestions, sortSuggestions } from "@/utils/filters";
-import { formatDate, getRelativeTime } from "@/utils/dates";
+import { formatDate, getRelativeTime, isOverdue } from "@/utils/dates";
 import { AdminUser } from "@/types";
 import PermissionGuard from "./PermissionGuard";
 import StatusUpdateModal from "@/components/StatusUpdateModal";
@@ -44,6 +45,9 @@ interface SuggestionTableProps {
 
 export default function SuggestionTable({ admin }: SuggestionTableProps) {
   const { theme } = useTheme();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [overdueOnly, setOverdueOnly] = useState(false);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [filteredSuggestions, setFilteredSuggestions] = useState<Suggestion[]>(
@@ -95,12 +99,25 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
     loadData();
   }, []);
 
+  // Apply overdue preset from query string
+  useEffect(() => {
+    const overdue = searchParams?.get("overdue");
+    if (overdue) {
+      setOverdueOnly(true);
+    } else {
+      setOverdueOnly(false);
+    }
+  }, [searchParams]);
+
   // Apply filters and sorting when data or filters change
   useEffect(() => {
     let filtered = filterSuggestions(suggestions, filters, employees);
+    if (overdueOnly) {
+      filtered = filtered.filter(s => isOverdue(s.dateCreated, s.status, 30));
+    }
     filtered = sortSuggestions(filtered, sortField, sortDirection);
     setFilteredSuggestions(filtered);
-  }, [suggestions, filters, sortField, sortDirection, employees]);
+  }, [suggestions, filters, sortField, sortDirection, employees, overdueOnly]);
 
   const handleFilterChange = (newFilters: Partial<SuggestionFilters>) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
@@ -157,6 +174,23 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
   const getEmployeeName = (employeeId: string) => {
     const employee = employees.find(emp => emp.id === employeeId);
     return employee?.name || "Unknown Employee";
+  };
+
+  const toggleOverdueOnly = () => {
+    setOverdueOnly(prev => {
+      const next = !prev;
+      // Do not force status filters; overdue is computed via isOverdue
+
+      const params = new URLSearchParams(searchParams?.toString());
+      if (next) {
+        params.set("overdue", "1");
+      } else {
+        params.delete("overdue");
+      }
+      const qs = params.toString();
+      router.push(qs ? `/suggestions?${qs}` : "/suggestions");
+      return next;
+    });
   };
 
   if (isLoading) {
@@ -380,6 +414,21 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
               Create Suggestion
             </button>
           </PermissionGuard>
+
+          {/* Overdue toggle */}
+          <button
+            onClick={toggleOverdueOnly}
+            className={`inline-flex items-center px-3 py-2.5 text-sm font-medium rounded-md focus:outline-none focus:ring-2 cursor-pointer mr-1 ${
+              overdueOnly
+                ? "bg-amber-500 text-white hover:bg-amber-600 focus:ring-amber-400"
+                : `${getThemeClasses("bg-gray-100 text-gray-700 hover:bg-gray-200", "bg-gray-700 text-gray-200 hover:bg-gray-600", theme)} focus:ring-blue-500`
+            }`}
+            aria-pressed={overdueOnly}
+            title="Toggle overdue only"
+          >
+            <WarningTriangle className="w-4 h-4 mr-1.5" />
+            {overdueOnly ? "Overdue only: ON" : "Overdue only: OFF"}
+          </button>
         </div>
       </div>
 
