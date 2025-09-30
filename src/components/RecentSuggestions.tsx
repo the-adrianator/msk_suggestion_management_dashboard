@@ -135,7 +135,6 @@ const RecentSuggestions = ({
                 employeeDepartment={getEmployeeDepartment(
                   suggestion.employeeId,
                 )}
-                admin={admin}
                 onUpdate={handleOpenStatusModal}
                 isExpanded={false} // All cards start collapsed
                 showExpandButton={true} // Enable individual card expand/collapse
