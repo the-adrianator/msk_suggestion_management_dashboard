@@ -511,7 +511,11 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
               ? "Get started by creating your first suggestion or seeding sample data."
               : "Try adjusting your filters to see more suggestions."
           }
-          icon={<Document className="w-12 h-12" />}
+          icon={
+            <span className="w-12 h-12 inline-block">
+              <Document />
+            </span>
+          }
           action={
             suggestions.length === 0 ? (
               <div className="space-x-3">
