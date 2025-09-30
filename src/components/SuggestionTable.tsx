@@ -67,13 +67,9 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"table" | "grid">("table");
-  const [toast, setToast] = useState<{
-    message: string;
-    type: "success" | "error" | "info";
-    isVisible: boolean;
-  }>({
+  const [toast, setToast] = useState({
     message: "",
-    type: "info",
+    type: "info" as "success" | "error" | "info",
     isVisible: false,
   });
 
@@ -132,6 +128,22 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
     }
   };
 
+  const toggleOverdueOnly = () => {
+    setOverdueOnly(prev => {
+      const next = !prev;
+      // Do not force status filters; overdue is computed via isOverdue
+      const params = new URLSearchParams(searchParams?.toString());
+      if (next) {
+        params.set("overdue", "1");
+      } else {
+        params.delete("overdue");
+      }
+      const qs = params.toString();
+      router.push(qs ? `/suggestions?${qs}` : "/suggestions");
+      return next;
+    });
+  };
+
   const handleUpdateSuggestion = (updatedSuggestion: Suggestion) => {
     setSuggestions(prev =>
       prev.map(s => (s.id === updatedSuggestion.id ? updatedSuggestion : s)),
@@ -176,23 +188,6 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
     return employee?.name || "Unknown Employee";
   };
 
-  const toggleOverdueOnly = () => {
-    setOverdueOnly(prev => {
-      const next = !prev;
-      // Do not force status filters; overdue is computed via isOverdue
-
-      const params = new URLSearchParams(searchParams?.toString());
-      if (next) {
-        params.set("overdue", "1");
-      } else {
-        params.delete("overdue");
-      }
-      const qs = params.toString();
-      router.push(qs ? `/suggestions?${qs}` : "/suggestions");
-      return next;
-    });
-  };
-
   if (isLoading) {
     return (
       <div
@@ -230,7 +225,6 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
                 onClick={() => {
                   setError(null);
                   setIsLoading(true);
-                  // Retry loading data
                   const loadData = async () => {
                     try {
                       const [fetchedSuggestions, fetchedEmployees] =
@@ -511,15 +505,11 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
               ? "Get started by creating your first suggestion or seeding sample data."
               : "Try adjusting your filters to see more suggestions."
           }
-          icon={
-            <span className="w-12 h-12 inline-block">
-              <Document />
-            </span>
-          }
+          icon={<Document className="w-12 h-12" />}
           action={
             suggestions.length === 0 ? (
               <div className="space-x-3">
-                <PermissionGuard permission="create_suggestions" admin={admin}>
+                <PermissionGuard permission="create_suggestions">
                   <button
                     onClick={() => setIsCreateModalOpen(true)}
                     className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"

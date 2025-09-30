@@ -16,10 +16,10 @@ const Arrow = ({ className }: SvgIconProps) => {
   );
 };
 
-const Document = () => {
+const Document = ({ className }: SvgIconProps) => {
   return (
     <svg
-      className="h-6 w-6"
+      className={className || "h-6 w-6"}
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
