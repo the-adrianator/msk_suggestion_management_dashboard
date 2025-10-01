@@ -135,7 +135,7 @@ export async function seedFirestoreData(): Promise<void> {
 }
 
 // Placeholder for clearing Firestore data; use Firebase console for manual deletion
- // TODO: Implement proper batch deletion
+// TODO: Implement proper batch deletion
 export async function clearFirestoreData(): Promise<void> {
   try {
     console.log("Clearing Firestore data...");
