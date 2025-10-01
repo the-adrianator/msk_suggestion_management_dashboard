@@ -152,7 +152,6 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
         setShowAllRecent={setShowAllRecent}
         theme={theme}
         employees={employees}
-        admin={admin}
         suggestions={suggestions}
         setToast={setToast}
         onSuggestionUpdate={reload}

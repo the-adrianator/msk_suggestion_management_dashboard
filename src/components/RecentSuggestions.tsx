@@ -103,7 +103,6 @@ const RecentSuggestions = ({
         {recentSuggestions
           .slice(0, showAllRecent ? recentSuggestions.length : 3)
           .map(suggestion => {
-            console.log("suggestion", suggestion);
             return (
               <SuggestionCard
                 key={suggestion.id}
