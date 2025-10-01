@@ -67,6 +67,7 @@ export function hasPermission(permission: string): boolean {
 }
 
 // Convenience helpers
-export const canCreateSuggestions = () => hasPermission("create_suggestions");
-export const canUpdateStatus = () => hasPermission("update_status");
-export const canViewAll = () => hasPermission("view_all");
+// Might use in future iterations - used (direct hasPermission() calls used instead) for this iteration
+// export const canCreateSuggestions = () => hasPermission("create_suggestions");
+// export const canUpdateStatus = () => hasPermission("update_status");
+// export const canViewAll = () => hasPermission("view_all");

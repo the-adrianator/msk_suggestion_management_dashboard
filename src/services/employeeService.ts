@@ -52,47 +52,49 @@ export async function getEmployeeById(
 }
 
 // Retrieves employees filtered by department
-export async function getEmployeesByDepartment(
-  department: string,
-): Promise<Employee[]> {
-  try {
-    const employeesRef = collection(db, COLLECTION_NAME);
-    const q = query(
-      employeesRef,
-      where("department", "==", department),
-      orderBy("name", "asc"),
-    );
-    const querySnapshot = await getDocs(q);
+// Might use in future iterations
+// export async function getEmployeesByDepartment(
+//   department: string,
+// ): Promise<Employee[]> {
+//   try {
+//     const employeesRef = collection(db, COLLECTION_NAME);
+//     const q = query(
+//       employeesRef,
+//       where("department", "==", department),
+//       orderBy("name", "asc"),
+//     );
+//     const querySnapshot = await getDocs(q);
 
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Employee[];
-  } catch (error) {
-    console.error("Error fetching employees by department:", error);
-    throw new Error("Failed to fetch employees by department");
-  }
-}
+//     return querySnapshot.docs.map(doc => ({
+//       id: doc.id,
+//       ...doc.data(),
+//     })) as Employee[];
+//   } catch (error) {
+//     console.error("Error fetching employees by department:", error);
+//     throw new Error("Failed to fetch employees by department");
+//   }
+// }
 
 // Retrieves employees filtered by risk level
-export async function getEmployeesByRiskLevel(
-  riskLevel: "high" | "medium" | "low",
-): Promise<Employee[]> {
-  try {
-    const employeesRef = collection(db, COLLECTION_NAME);
-    const q = query(
-      employeesRef,
-      where("riskLevel", "==", riskLevel),
-      orderBy("name", "asc"),
-    );
-    const querySnapshot = await getDocs(q);
+// Might be useful in future iterations
+// export async function getEmployeesByRiskLevel(
+//   riskLevel: "high" | "medium" | "low",
+// ): Promise<Employee[]> {
+//   try {
+//     const employeesRef = collection(db, COLLECTION_NAME);
+//     const q = query(
+//       employeesRef,
+//       where("riskLevel", "==", riskLevel),
+//       orderBy("name", "asc"),
+//     );
+//     const querySnapshot = await getDocs(q);
 
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Employee[];
-  } catch (error) {
-    console.error("Error fetching employees by risk level:", error);
-    throw new Error("Failed to fetch employees by risk level");
-  }
-}
+//     return querySnapshot.docs.map(doc => ({
+//       id: doc.id,
+//       ...doc.data(),
+//     })) as Employee[];
+//   } catch (error) {
+//     console.error("Error fetching employees by risk level:", error);
+//     throw new Error("Failed to fetch employees by risk level");
+//   }
+// }

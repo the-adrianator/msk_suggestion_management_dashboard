@@ -21,35 +21,36 @@ export default function PermissionGuard({
 }
 
 // Convenience wrappers for common permissions
-export function CreateSuggestionGuard({
-  children,
-  fallback,
-}: Omit<PermissionGuardProps, "permission">) {
-  return (
-    <PermissionGuard permission="create_suggestions" fallback={fallback}>
-      {children}
-    </PermissionGuard>
-  );
-}
+// Might use in future iterations - used PermissionGuard directly instead for this iteration
+// export function CreateSuggestionGuard({
+//   children,
+//   fallback,
+// }: Omit<PermissionGuardProps, "permission">) {
+//   return (
+//     <PermissionGuard permission="create_suggestions" fallback={fallback}>
+//       {children}
+//     </PermissionGuard>
+//   );
+// }
 
-export function UpdateStatusGuard({
-  children,
-  fallback,
-}: Omit<PermissionGuardProps, "permission">) {
-  return (
-    <PermissionGuard permission="update_status" fallback={fallback}>
-      {children}
-    </PermissionGuard>
-  );
-}
+// export function UpdateStatusGuard({
+//   children,
+//   fallback,
+// }: Omit<PermissionGuardProps, "permission">) {
+//   return (
+//     <PermissionGuard permission="update_status" fallback={fallback}>
+//       {children}
+//     </PermissionGuard>
+//   );
+// }
 
-export function ViewAllGuard({
-  children,
-  fallback,
-}: Omit<PermissionGuardProps, "permission">) {
-  return (
-    <PermissionGuard permission="view_all" fallback={fallback}>
-      {children}
-    </PermissionGuard>
-  );
-}
+// export function ViewAllGuard({
+//   children,
+//   fallback,
+// }: Omit<PermissionGuardProps, "permission">) {
+//   return (
+//     <PermissionGuard permission="view_all" fallback={fallback}>
+//       {children}
+//     </PermissionGuard>
+//   );
+// }

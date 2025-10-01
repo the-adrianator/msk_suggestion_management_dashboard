@@ -48,21 +48,8 @@ export interface SuggestionFilters {
 export type SortField = "dateUpdated" | "priority" | "status";
 export type SortDirection = "asc" | "desc";
 
-export interface SortOptions {
-  field: SortField;
-  direction: SortDirection;
-}
-
 // Theme types
 export type Theme = "light" | "dark";
-
-// Status badge types for UI
-export type StatusBadgeType =
-  | "pending"
-  | "in_progress"
-  | "completed"
-  | "dismissed"
-  | "overdue";
 
 // Form data interfaces
 export interface CreateSuggestionData {
@@ -93,4 +80,16 @@ export interface SuggestionWithEmployee extends Suggestion {
 export interface StatusUpdateResult {
   success: boolean;
   error?: string;
+}
+
+// Stat card props
+export interface StatCardProps {
+  title: string;
+  value: number;
+  icon: React.ReactNode;
+  color: "blue" | "green" | "yellow" | "red" | "purple";
+  trend?: {
+    value: number;
+    isPositive: boolean;
+  };
 }

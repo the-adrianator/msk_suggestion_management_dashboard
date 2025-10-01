@@ -50,36 +50,6 @@ export async function getSuggestions(): Promise<Suggestion[]> {
   }
 }
 
-// Retrieves a single suggestion by its ID
-export async function getSuggestionById(
-  suggestionId: string,
-): Promise<Suggestion | null> {
-  try {
-    const suggestionRef = doc(db, COLLECTION_NAME, suggestionId);
-    const suggestionSnap = await getDoc(suggestionRef);
-
-    if (suggestionSnap.exists()) {
-      const data = suggestionSnap.data();
-      return {
-        id: suggestionSnap.id,
-        ...data,
-        // Convert Firestore timestamps to ISO strings
-        dateCreated:
-          data.dateCreated?.toDate?.()?.toISOString() || data.dateCreated,
-        dateUpdated:
-          data.dateUpdated?.toDate?.()?.toISOString() || data.dateUpdated,
-        dateCompleted:
-          data.dateCompleted?.toDate?.()?.toISOString() || data.dateCompleted,
-      } as Suggestion;
-    }
-
-    return null;
-  } catch (error) {
-    console.error("Error fetching suggestion:", error);
-    throw new Error("Failed to fetch suggestion");
-  }
-}
-
 // Retrieves suggestions for a specific employee
 export async function getSuggestionsByEmployee(
   employeeId: string,
@@ -205,48 +175,16 @@ export const updateSuggestionStatus = async (
 };
 
 // Deletes a suggestion from Firestore
-export async function deleteSuggestion(suggestionId: string): Promise<void> {
-  try {
-    const suggestionRef = doc(db, COLLECTION_NAME, suggestionId);
-    await deleteDoc(suggestionRef);
-  } catch (error) {
-    console.error("Error deleting suggestion:", error);
-    throw new Error("Failed to delete suggestion");
-  }
-}
-
-// Retrieves suggestions filtered by status
-export async function getSuggestionsByStatus(
-  status: "pending" | "in_progress" | "completed" | "dismissed",
-): Promise<Suggestion[]> {
-  try {
-    const suggestionsRef = collection(db, COLLECTION_NAME);
-    const q = query(
-      suggestionsRef,
-      where("status", "==", status),
-      orderBy("dateUpdated", "desc"),
-    );
-    const querySnapshot = await getDocs(q);
-
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-      // Convert Firestore timestamps to ISO strings
-      dateCreated:
-        doc.data().dateCreated?.toDate?.()?.toISOString() ||
-        doc.data().dateCreated,
-      dateUpdated:
-        doc.data().dateUpdated?.toDate?.()?.toISOString() ||
-        doc.data().dateUpdated,
-      dateCompleted:
-        doc.data().dateCompleted?.toDate?.()?.toISOString() ||
-        doc.data().dateCompleted,
-    })) as Suggestion[];
-  } catch (error) {
-    console.error("Error fetching suggestions by status:", error);
-    throw new Error("Failed to fetch suggestions by status");
-  }
-}
+// Might use in future iterations
+// export async function deleteSuggestion(suggestionId: string): Promise<void> {
+//   try {
+//     const suggestionRef = doc(db, COLLECTION_NAME, suggestionId);
+//     await deleteDoc(suggestionRef);
+//   } catch (error) {
+//     console.error("Error deleting suggestion:", error);
+//     throw new Error("Failed to delete suggestion");
+//   }
+// }
 
 /**
  * Get suggestions with employee data for display
