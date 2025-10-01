@@ -267,7 +267,7 @@ export default function EmployeeDrawer({
                       >
                         <button
                           onClick={() => handleUpdateSuggestion(suggestion)}
-                          className="w-full px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 cursor-pointer"
+                          className="w-full px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white"
                         >
                           Update Status
                         </button>

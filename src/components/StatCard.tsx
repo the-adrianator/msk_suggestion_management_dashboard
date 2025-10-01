@@ -6,17 +6,7 @@ import {
   getThemeTextClasses,
 } from "@/utils/themeClasses";
 import { useTheme } from "@/contexts/ThemeContext";
-
-export interface StatCardProps {
-  title: string;
-  value: number;
-  icon: React.ReactNode;
-  color: "blue" | "green" | "yellow" | "red" | "purple";
-  trend?: {
-    value: number;
-    isPositive: boolean;
-  };
-}
+import { StatCardProps } from "@/types";
 
 // Card component for displaying a single statistic with icon, value, and optional trend
 export default function StatCard({

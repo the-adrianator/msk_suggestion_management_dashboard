@@ -36,8 +36,8 @@ const config: Config = {
         },
       },
       screens: {
-        "2xs": "320px",
-        xs: "480px",
+        "2xs": "375px",
+        xs: "425px",
         ...defaultTheme.screens,
       },
       fontFamily: {

@@ -3,6 +3,10 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Custom breakpoints */
+  --breakpoint-2xs: 375px;
+  --breakpoint-xs: 425px;
 }
 
 body {

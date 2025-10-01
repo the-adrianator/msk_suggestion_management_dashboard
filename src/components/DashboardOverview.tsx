@@ -170,7 +170,7 @@ export default function DashboardOverview({
         >
           Overview
         </h3>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 2xs:grid-cols-2 lg:grid-cols-4">
           {statCards.overview.map(item => (
             <StatCard key={item.title} {...item} />
           ))}
@@ -178,14 +178,14 @@ export default function DashboardOverview({
       </div>
 
       {/* Priority and source breakdown */}
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <div>
           <h3
             className={`text-lg leading-6 font-medium ${getThemeClasses("text-gray-900", "text-white", theme)} mb-4`}
           >
             Priority Breakdown
           </h3>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 2xs:grid-cols-2 xl:grid-cols-3">
             {statCards.priority.map(item => (
               <StatCard key={item.title} {...item} />
             ))}
@@ -198,7 +198,7 @@ export default function DashboardOverview({
           >
             Source Breakdown
           </h3>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 2xs:grid-cols-2">
             {statCards.source.map(item => (
               <StatCard key={item.title} {...item} />
             ))}
@@ -211,30 +211,32 @@ export default function DashboardOverview({
         <div
           className={`${getThemeWarningBgClasses(theme)} border ${getThemeWarningBorderClasses(theme)} rounded-md p-4`}
         >
-          <div className="flex items-start justify-between">
-            <div className="flex-shrink-0">
-              <Overdue />
-            </div>
-            <div className="ml-3 flex-1">
-              <h3
-                className={`text-sm font-medium ${getThemeWarningTitleClasses(theme)}`}
-              >
-                Overdue Suggestions
-              </h3>
-              <div
-                className={`mt-2 text-sm ${getThemeWarningTextClasses(theme)}`}
-              >
-                <p>
-                  {stats.overdue} suggestion{stats.overdue !== 1 ? "s" : ""}{" "}
-                  have been pending for more than 30 days and may require
-                  attention.
-                </p>
+          <div className="flex flex-col gap-4 sm:flex-row justify-between">
+            <div className="flex gap-1">
+              <div className="flex-shrink-0">
+                <Overdue />
+              </div>
+              <div className="ml-3 flex-1">
+                <h3
+                  className={`text-sm font-medium ${getThemeWarningTitleClasses(theme)}`}
+                >
+                  Overdue Suggestions
+                </h3>
+                <div
+                  className={`mt-2 text-sm ${getThemeWarningTextClasses(theme)}`}
+                >
+                  <p>
+                    {stats.overdue} suggestion{stats.overdue !== 1 ? "s" : ""}{" "}
+                    have been pending for more than 30 days and may require
+                    attention.
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="my-auto">
+            <div className="my-auto w-full sm:w-fit flex-shrink-0">
               <button
                 onClick={() => router.push("/suggestions?overdue=1")}
-                className="inline-flex items-center px-3 py-2 text-xs font-medium rounded-md bg-red-500 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer"
+                className="px-3 py-2 text-sm font-medium rounded-md bg-red-500 text-white text-center hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer w-full"
               >
                 View Overdue
               </button>
