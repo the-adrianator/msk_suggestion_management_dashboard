@@ -42,50 +42,6 @@ The app was designed with user convenience front and centre — quick navigation
 - Microanimations
 
 
-## Getting started
-
-I used Node 20.18.0 locally (same as Netlify’s deploy env). If you have `asdf`/`nodenv`/`nvm`, that’ll make life easier.
-
-1) Install dependencies
-
-```bash
-npm ci
-```
-
-2) Set environment variables
-
-The app expects Firebase client config as public env vars so it can talk to Firestore from the browser. Create a `.env.local` in `msk_suggestion_management_dashboard` with values that point at the Firebase project:
-
-```bash
-NEXT_PUBLIC_FIREBASE_API_KEY=...
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=...
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=...
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
-NEXT_PUBLIC_FIREBASE_APP_ID=...
-```
-
-3) Run the dev server
-
-```bash
-npm run dev
-```
-
-Then visit `http://localhost:3000`.
-
-4) Build and serve locally (optional)
-
-```bash
-npm run build && npm start
-```
-
-5) Tests
-
-```bash
-npm test
-```
-
-
 ## Assumptions I made
 
 - Authentication is simulated. There’s no real identity provider; I’m persisting a mock admin user in `localStorage`. It’s fine for a prototype, not for production. You can sign in as any of:
@@ -142,7 +98,6 @@ Local data expectations
   - `suggestions` (documents matching `Suggestion`; `dateCreated`/`dateUpdated` as `Timestamp`)
 
 
-
 Deployment notes
 
 - The site is deployed to Netlify at [`https://msk-smd-demo.netlify.app/`](https://msk-smd-demo.netlify.app/).
@@ -181,50 +136,48 @@ Known trade‑offs
 - npm or yarn
 - Firebase project with Firestore enabled
 
-## 🚀 Quick Start
+## Getting started
 
-### 1. Clone and Install
+I used Node 20.18.0 locally (same as Netlify’s deploy env). If you have `asdf`/`nodenv`/`nvm`, that’ll make life easier.
 
-```bash
-git clone <repository-url>
-cd msk_suggestion_management_dashboard
-npm install
-```
-
-### 2. Firebase Setup
-
-1. Create a new Firebase project at [Firebase Console](https://console.firebase.google.com/)
-2. Enable Firestore Database
-3. Copy your Firebase config to `.env.local`:
+1) Install dependencies
 
 ```bash
-cp .env.local.example .env.local
+npm ci
 ```
 
-4. Update `.env.local` with your Firebase credentials:
+2) Set environment variables
 
-```env
-NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+The app expects Firebase client config as public env vars so it can talk to Firestore from the browser. Create a `.env.local` in `msk_suggestion_management_dashboard` with values that point at the Firebase project:
+
+```bash
+NEXT_PUBLIC_FIREBASE_API_KEY=...
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=...
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=...
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
+NEXT_PUBLIC_FIREBASE_APP_ID=...
 ```
 
-### 3. Run Development Server
+3) Run the dev server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Then visit `http://localhost:3000`.
 
-### 4. Seed Sample Data
+4) Build and serve locally (optional)
 
-Option A (UI): Temporarily add `SeedDataButton` to `DashboardPage` and click "Seed Sample Data" once, then remove it.
+```bash
+npm run build && npm start
+```
 
-Option B (script): Call `seedFirestoreData()` from the browser console or a tiny Node script after importing from `src/scripts/seedData.ts`.
+5) Tests
+
+```bash
+npm test
+```
 
 ## 🔐 Demo Credentials
 
