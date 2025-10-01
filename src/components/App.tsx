@@ -7,12 +7,13 @@ import LoginScreen from "@/components/LoginScreen";
 import DashboardLayout from "@/components/DashboardLayout";
 import DashboardPage from "@/components/DashboardPage";
 
+// Main application component; handles authentication state and renders appropriate UI
 export default function App() {
   const [admin, setAdmin] = useState<AdminUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for existing session on mount
+    // Check for existing session on mount; restore admin if valid session exists
     const currentAdmin = getCurrentAdmin();
     if (currentAdmin) {
       setAdmin(currentAdmin);
@@ -20,6 +21,7 @@ export default function App() {
     setIsLoading(false);
   }, []);
 
+  // Updates admin state after successful login
   const handleLogin = (loggedInAdmin: AdminUser) => {
     setAdmin(loggedInAdmin);
   };

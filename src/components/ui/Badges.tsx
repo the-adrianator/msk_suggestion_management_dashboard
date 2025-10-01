@@ -7,6 +7,7 @@ import {
   getThemeStatusClasses,
 } from "@/utils/themeClasses";
 
+// Returns JSX for status badge with overdue indicator if applicable
 export const getStatusBadge = (
   suggestion: Suggestion,
   theme: "light" | "dark",
@@ -39,6 +40,7 @@ export const getStatusBadge = (
   );
 };
 
+// Returns JSX for priority badge with colour-coded styling
 export const getPriorityBadge = (
   priority: "high" | "medium" | "low",
   theme: "light" | "dark",
@@ -52,6 +54,7 @@ export const getPriorityBadge = (
   );
 };
 
+// Returns JSX for suggestion type badge with category-specific colours
 export const getTypeBadge = (
   type: "exercise" | "equipment" | "behavioural" | "lifestyle",
   theme: "light" | "dark",

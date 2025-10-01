@@ -9,12 +9,14 @@ import SuggestionTable from "@/components/SuggestionTable";
 import { useTheme } from "@/contexts/ThemeContext";
 import { getThemeClasses, getThemeTextClasses } from "@/utils/themeClasses";
 
+// Suggestions page displaying all suggestions with advanced filtering and management
 export default function SuggestionsPage() {
   const { theme } = useTheme();
   const [admin, setAdmin] = useState<AdminUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Restore admin session on page mount
     const adminUser = getCurrentAdmin();
     if (adminUser) {
       setAdmin(adminUser);
@@ -22,6 +24,7 @@ export default function SuggestionsPage() {
     setIsLoading(false);
   }, []);
 
+  // Updates admin state after successful login
   const handleLoginSuccess = (loggedInAdmin: AdminUser) => {
     setAdmin(loggedInAdmin);
   };

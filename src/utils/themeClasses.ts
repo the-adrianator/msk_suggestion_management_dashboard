@@ -1,3 +1,4 @@
+// Returns appropriate class based on current theme
 export function getThemeClasses(
   lightClass: string,
   darkClass: string,
@@ -6,38 +7,47 @@ export function getThemeClasses(
   return theme === "dark" ? darkClass : lightClass;
 }
 
+// Returns background colour classes for the current theme
 export function getThemeBgClasses(theme: "light" | "dark") {
   return getThemeClasses("bg-gray-50", "bg-gray-900", theme);
 }
 
+// Returns text colour classes for the current theme
 export function getThemeTextClasses(theme: "light" | "dark") {
   return getThemeClasses("text-gray-900", "text-gray-100", theme);
 }
 
+// Returns warning title colour classes for the current theme
 export function getThemeWarningTitleClasses(theme: "light" | "dark") {
   return getThemeClasses("text-red-800", "text-red-200", theme);
 }
 
+// Returns warning text colour classes for the current theme
 export function getThemeWarningTextClasses(theme: "light" | "dark") {
   return getThemeClasses("text-red-700", "text-red-300", theme);
 }
 
+// Returns warning background colour classes for the current theme
 export function getThemeWarningBgClasses(theme: "light" | "dark") {
   return getThemeClasses("bg-red-50", "bg-red-900/20", theme);
 }
 
+// Returns warning border colour classes for the current theme
 export function getThemeWarningBorderClasses(theme: "light" | "dark") {
   return getThemeClasses("border-red-200", "border-red-800", theme);
 }
 
+// Returns card background colour classes for the current theme
 export function getThemeCardClasses(theme: "light" | "dark") {
   return getThemeClasses("bg-white", "bg-gray-800", theme);
 }
 
+// Returns border colour classes for the current theme
 export function getThemeBorderClasses(theme: "light" | "dark") {
   return getThemeClasses("border-gray-200", "border-gray-700", theme);
 }
 
+// Returns colour classes for employee risk level badges
 export function getThemeRiskLevelClasses(
   riskLevel: "high" | "medium" | "low",
   theme: "light" | "dark",
@@ -54,6 +64,7 @@ export function getThemeRiskLevelClasses(
   }
 }
 
+// Returns colour classes for suggestion type badges
 export function getThemeTypeClasses(
   type: "exercise" | "equipment" | "behavioural" | "lifestyle",
   theme: "light" | "dark",
@@ -92,6 +103,7 @@ export function getThemeTypeClasses(
   }
 }
 
+// Returns colour classes for suggestion status badges
 export function getThemeStatusClasses(
   status: "pending" | "in_progress" | "completed" | "dismissed",
   theme: "light" | "dark",

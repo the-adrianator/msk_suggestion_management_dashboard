@@ -13,6 +13,7 @@ interface LoadingSkeletonProps {
   className?: string;
 }
 
+// Generic skeleton loader with configurable number of lines
 export default function LoadingSkeleton({
   lines = 3,
   className = "",
@@ -32,6 +33,7 @@ export default function LoadingSkeleton({
   );
 }
 
+// Skeleton loader mimicking table layout with multiple rows and columns
 export function TableSkeleton() {
   const { theme } = useTheme();
 
@@ -59,6 +61,7 @@ export function TableSkeleton() {
   );
 }
 
+// Skeleton loader mimicking card layout with multiple cards
 export function CardSkeleton() {
   const { theme } = useTheme();
 

@@ -13,6 +13,7 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
+// Main layout wrapper with responsive sidebar, header, and content area
 export default function DashboardLayout({
   admin,
   children,
@@ -21,10 +22,12 @@ export default function DashboardLayout({
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const { theme } = useTheme();
 
+  // Toggles mobile sidebar visibility
   const toggleMobileSidebar = () => {
     setIsMobileSidebarOpen(!isMobileSidebarOpen);
   };
 
+  // Closes mobile sidebar (used when clicking overlay or nav link)
   const closeMobileSidebar = () => {
     setIsMobileSidebarOpen(false);
   };

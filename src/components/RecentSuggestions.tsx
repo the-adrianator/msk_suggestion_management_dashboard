@@ -1,8 +1,9 @@
-import { AdminUser, Employee, Suggestion, Theme } from "@/types";
+import { Employee, Suggestion, Theme } from "@/types";
 import { getThemeClasses, getThemeTextClasses } from "@/utils/themeClasses";
 import SuggestionCard from "@/components/SuggestionCard";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import StatusUpdateModal from "@/components/StatusUpdateModal";
+import { ArrowUp } from "@/components/ui/SvgIcons";
 
 interface RecentSuggestionsProps {
   recentSuggestions: Suggestion[];
@@ -11,7 +12,6 @@ interface RecentSuggestionsProps {
   setShowAllRecent: (showAllRecent: boolean) => void;
   theme: Theme;
   employees: Employee[];
-  admin: AdminUser;
   suggestions: Suggestion[];
   setToast: Dispatch<
     SetStateAction<{
@@ -23,6 +23,7 @@ interface RecentSuggestionsProps {
   onSuggestionUpdate: () => void;
 }
 
+// Component displaying recently updated suggestions with expand/collapse functionality
 const RecentSuggestions = ({
   recentSuggestions,
   setRecentSuggestions,
@@ -30,33 +31,38 @@ const RecentSuggestions = ({
   setShowAllRecent,
   theme,
   employees,
-  admin,
   setToast,
   onSuggestionUpdate,
 }: RecentSuggestionsProps) => {
   const [selectedSuggestion, setSelectedSuggestion] =
     useState<Suggestion | null>(null);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
+
+  // Retrieves employee name by ID from employees array
   const getEmployeeName = (employeeId: string) => {
     const employee = employees.find(emp => emp.id === employeeId);
     return employee?.name || "Unknown Employee";
   };
 
+  // Retrieves employee department by ID from employees array
   const getEmployeeDepartment = (employeeId: string) => {
     const employee = employees.find(emp => emp.id === employeeId);
     return employee?.department || "Unknown Department";
   };
 
+  // Opens status update modal for selected suggestion
   const handleOpenStatusModal = (suggestion: Suggestion) => {
     setSelectedSuggestion(suggestion);
     setIsStatusModalOpen(true);
   };
 
+  // Closes status modal and clears selection
   const handleCloseStatusModal = () => {
     setIsStatusModalOpen(false);
     setSelectedSuggestion(null);
   };
 
+  // Updates suggestion in parent state, closes modal, and notifies parent component
   const handleUpdateSuggestion = (updatedSuggestion: Suggestion) => {
     setRecentSuggestions(prev =>
       prev.map(suggestion =>
@@ -82,43 +88,14 @@ const RecentSuggestions = ({
         {recentSuggestions.length > 3 && (
           <button
             onClick={() => setShowAllRecent(!showAllRecent)}
-            className={`inline-flex items-center px-3 py-2 text-sm font-medium mr-1 ${theme === "dark" ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-700"} focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md cursor-pointer`}
+            className={`inline-flex items-center px-3 py-2 text-sm font-medium mr-1 ${getThemeClasses("text-blue-600 hover:text-blue-700", "text-blue-400 hover:text-blue-300", theme)} focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md cursor-pointer`}
           >
-            {showAllRecent ? (
-              <>
-                <svg
-                  className="w-4 h-4 mr-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 15l7-7 7 7"
-                  />
-                </svg>
-                Show Less
-              </>
-            ) : (
-              <>
-                <svg
-                  className="w-4 h-4 mr-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-                Show All ({recentSuggestions.length})
-              </>
-            )}
+            <ArrowUp
+              className={`w-4 h-4 mr-1 ${!showAllRecent ? "rotate-180" : ""}`}
+            />
+            {showAllRecent
+              ? "Show Less"
+              : `Show All (${recentSuggestions.length})`}
           </button>
         )}
       </div>
@@ -144,7 +121,7 @@ const RecentSuggestions = ({
         {recentSuggestions.length === 0 && (
           <div className="lg:col-span-3">
             <p
-              className={`text-center ${getThemeClasses("text-gray-400", "text-gray-500", theme)}`}
+              className={`text-center ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
             >
               No recent suggestions found.
             </p>

@@ -5,12 +5,13 @@ import { getSuggestionsWithEmployees } from "@/services/suggestionService";
 import { updateSuggestionStatus } from "@/services/suggestionService";
 import type { SuggestionWithEmployee } from "@/types";
 
+// Custom hook for managing suggestion state with optimistic updates and reload capability
 export function useSuggestions() {
   const [suggestions, setSuggestions] = useState<SuggestionWithEmployee[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load suggestions on mount
+  // Loads suggestions from Firestore on component mount
   useEffect(() => {
     const loadSuggestions = async () => {
       try {
@@ -29,9 +30,9 @@ export function useSuggestions() {
     loadSuggestions();
   }, []);
 
-  // Update suggestion status with optimistic UI
+  // Updates suggestion status with optimistic UI; reverts on failure
   const updateStatus = async (id: string, status: string, notes?: string) => {
-    // Optimistic update
+    // Apply optimistic update immediately for instant feedback
     setSuggestions(prev =>
       prev.map(suggestion => {
         if (suggestion.id === id) {
@@ -88,7 +89,7 @@ export function useSuggestions() {
     }
   };
 
-  // Reload suggestions
+  // Reloads all suggestions from Firestore (used for manual refresh or after errors)
   const loadSuggestions = async () => {
     try {
       setIsLoading(true);

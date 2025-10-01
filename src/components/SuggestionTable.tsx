@@ -43,6 +43,7 @@ interface SuggestionTableProps {
   admin: AdminUser;
 }
 
+// Main table component for managing suggestions with filtering, sorting, and view modes
 export default function SuggestionTable({ admin }: SuggestionTableProps) {
   const { theme } = useTheme();
   const searchParams = useSearchParams();
@@ -115,10 +116,12 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
     setFilteredSuggestions(filtered);
   }, [suggestions, filters, sortField, sortDirection, employees, overdueOnly]);
 
+  // Updates filter criteria and triggers re-filtering of suggestions
   const handleFilterChange = (newFilters: Partial<SuggestionFilters>) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
   };
 
+  // Handles column sorting; toggles direction if clicking same field
   const handleSort = (field: SortField) => {
     if (sortField === field) {
       setSortDirection(prev => (prev === "asc" ? "desc" : "asc"));
@@ -128,6 +131,7 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
     }
   };
 
+  // Toggles overdue-only filter and updates URL query parameters
   const toggleOverdueOnly = () => {
     setOverdueOnly(prev => {
       const next = !prev;
@@ -144,32 +148,38 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
     });
   };
 
+  // Updates suggestion in state after successful modification
   const handleUpdateSuggestion = (updatedSuggestion: Suggestion) => {
     setSuggestions(prev =>
       prev.map(s => (s.id === updatedSuggestion.id ? updatedSuggestion : s)),
     );
   };
 
+  // Opens status update modal for selected suggestion
   const handleOpenModal = (suggestion: Suggestion) => {
     setSelectedSuggestion(suggestion);
     setIsModalOpen(true);
   };
 
+  // Closes status update modal and clears selection
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedSuggestion(null);
   };
 
+  // Opens employee drawer to view employee details and their suggestions
   const handleOpenEmployeeDrawer = (employee: Employee) => {
     setSelectedEmployee(employee);
     setIsDrawerOpen(true);
   };
 
+  // Closes employee drawer and clears selection
   const handleCloseEmployeeDrawer = () => {
     setIsDrawerOpen(false);
     setSelectedEmployee(null);
   };
 
+  // Adds new suggestion to state and displays success toast
   const handleCreateSuggestion = (newSuggestion: Suggestion) => {
     setSuggestions(prev => [newSuggestion, ...prev]);
     setToast({
@@ -179,10 +189,12 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
     });
   };
 
+  // Hides the toast notification
   const hideToast = () => {
     setToast(prev => ({ ...prev, isVisible: false }));
   };
 
+  // Retrieves employee name by ID from employees array
   const getEmployeeName = (employeeId: string) => {
     const employee = employees.find(emp => emp.id === employeeId);
     return employee?.name || "Unknown Employee";

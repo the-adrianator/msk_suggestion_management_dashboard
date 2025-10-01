@@ -27,6 +27,7 @@ interface SuggestionTableDataProps {
   getEmployeeName: (employeeId: string) => string;
 }
 
+// Table data component rendering suggestions in desktop table layout with sortable columns
 const SuggestionTableData = ({
   filteredSuggestions,
   employees,
@@ -44,16 +45,19 @@ const SuggestionTableData = ({
   const [selectedSuggestion, setSelectedSuggestion] =
     useState<Suggestion | null>(null);
 
+  // Opens detail modal to view full suggestion information
   const handleOpenDetailModal = (suggestion: Suggestion) => {
     setSelectedSuggestion(suggestion);
     setIsDetailModalOpen(true);
   };
 
+  // Closes detail modal and clears selection
   const handleCloseDetailModal = () => {
     setIsDetailModalOpen(false);
     setSelectedSuggestion(null);
   };
 
+  // Triggers status update modal from within detail modal
   const handleUpdateFromDetail = (suggestion: Suggestion) => {
     handleOpenModal(suggestion);
   };
@@ -181,7 +185,7 @@ const SuggestionTableData = ({
                         );
                         if (employee) handleOpenEmployeeDrawer(employee);
                       }}
-                      className={`${theme === "dark" ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-900"} font-medium transition-colors duration-200 cursor-pointer`}
+                      className={`${getThemeClasses("text-blue-600 hover:text-blue-900", "text-blue-400 hover:text-blue-300", theme)} font-medium transition-colors duration-200 cursor-pointer`}
                     >
                       {getEmployeeName(suggestion.employeeId)}
                     </button>
@@ -217,7 +221,7 @@ const SuggestionTableData = ({
                     <PermissionGuard permission="update_status">
                       <button
                         onClick={() => handleOpenModal(suggestion)}
-                        className={`${theme === "dark" ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-900"} transition-colors duration-200 cursor-pointer`}
+                        className={`${getThemeClasses("text-blue-600 hover:text-blue-900", "text-blue-400 hover:text-blue-300", theme)} transition-colors duration-200 cursor-pointer`}
                       >
                         Update
                       </button>

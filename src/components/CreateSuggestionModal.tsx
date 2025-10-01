@@ -7,6 +7,7 @@ import { createSuggestion } from "@/services/suggestionService";
 import { AdminUser, Suggestion } from "@/types";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
+  getThemeClasses,
   getThemeTextClasses,
   getThemeBorderClasses,
 } from "@/utils/themeClasses";
@@ -19,6 +20,7 @@ interface CreateSuggestionModalProps {
   admin: AdminUser;
 }
 
+// Modal for creating new MSK suggestions with form validation and employee selection
 export default function CreateSuggestionModal({
   isOpen,
   onClose,
@@ -48,6 +50,7 @@ export default function CreateSuggestionModal({
     }
   }, [isOpen]);
 
+  // Fetches employee list from Firestore for dropdown selection
   const loadEmployees = async () => {
     setIsLoading(true);
     try {
@@ -61,6 +64,7 @@ export default function CreateSuggestionModal({
     }
   };
 
+  // Validates form data, creates suggestion in Firestore, and triggers success callback
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -107,6 +111,7 @@ export default function CreateSuggestionModal({
     }
   };
 
+  // Updates form field values in state
   const handleInputChange = (
     field: keyof CreateSuggestionData,
     value: string,
@@ -119,12 +124,12 @@ export default function CreateSuggestionModal({
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm overflow-y-auto h-full w-full z-50">
       <div
-        className={`relative top-20 mx-auto p-5 border w-full max-w-md shadow-2xl rounded-lg ${theme === "dark" ? "bg-gray-800/90" : "bg-white/90"} backdrop-blur-md ${theme === "dark" ? "border-gray-700/50" : "border-white/20"}`}
+        className={`relative top-20 mx-auto p-5 border w-full max-w-md shadow-2xl rounded-lg ${getThemeClasses("bg-white/90 border-white/20", "bg-gray-800/90 border-gray-700/50", theme)} backdrop-blur-md `}
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className={`absolute cursor-pointer top-3 right-3 p-1 rounded-full ${theme === "dark" ? "text-gray-500 hover:text-gray-300 hover:bg-gray-700" : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`absolute cursor-pointer top-3 right-3 p-1 rounded-full ${getThemeClasses("text-gray-400 hover:text-gray-600 hover:bg-gray-100", "text-gray-500 hover:text-gray-300 hover:bg-gray-700", theme)} focus:outline-none focus:ring-2 focus:ring-blue-500`}
           aria-label="Close modal"
         >
           <XMark />
@@ -141,7 +146,7 @@ export default function CreateSuggestionModal({
             {/* Employee Selection - Required */}
             <div>
               <label
-                className={`block text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"} mb-2`}
+                className={`block text-sm font-medium ${getThemeClasses("text-gray-700", "text-gray-300", theme)} mb-2`}
               >
                 Employee *
               </label>
@@ -155,7 +160,7 @@ export default function CreateSuggestionModal({
                   onChange={e =>
                     handleInputChange("employeeId", e.target.value)
                   }
-                  className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${theme === "dark" ? "bg-gray-700 text-white" : "bg-white text-gray-900"}`}
+                  className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${getThemeClasses("bg-white text-gray-900", "bg-gray-700 text-white", theme)}`}
                   required
                 >
                   <option value="">Select an employee</option>
@@ -171,14 +176,14 @@ export default function CreateSuggestionModal({
             {/* Category/Type - Required */}
             <div>
               <label
-                className={`block text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"} mb-2`}
+                className={`block text-sm font-medium ${getThemeClasses("text-gray-700", "text-gray-300", theme)} mb-2`}
               >
                 Category *
               </label>
               <select
                 value={formData.type}
                 onChange={e => handleInputChange("type", e.target.value)}
-                className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${theme === "dark" ? "bg-gray-700 text-white" : "bg-white text-gray-900"}`}
+                className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${getThemeClasses("bg-white text-gray-900", "bg-gray-700 text-white", theme)}`}
                 required
               >
                 <option value="exercise">Exercise</option>
@@ -191,7 +196,7 @@ export default function CreateSuggestionModal({
             {/* Description - Required */}
             <div>
               <label
-                className={`block text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"} mb-2`}
+                className={`block text-sm font-medium ${getThemeClasses("text-gray-700", "text-gray-300", theme)} mb-2`}
               >
                 Description *
               </label>
@@ -199,7 +204,7 @@ export default function CreateSuggestionModal({
                 value={formData.description}
                 onChange={e => handleInputChange("description", e.target.value)}
                 rows={3}
-                className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${theme === "dark" ? "bg-gray-700 text-white" : "bg-white text-gray-900"}`}
+                className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${getThemeClasses("bg-white text-gray-900", "bg-gray-700 text-white", theme)}`}
                 placeholder="Describe the MSK risk reduction suggestion..."
                 required
               />
@@ -208,14 +213,14 @@ export default function CreateSuggestionModal({
             {/* Priority - Optional */}
             <div>
               <label
-                className={`block text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"} mb-2`}
+                className={`block text-sm font-medium ${getThemeClasses("text-gray-700", "text-gray-300", theme)} mb-2`}
               >
                 Priority
               </label>
               <select
                 value={formData.priority}
                 onChange={e => handleInputChange("priority", e.target.value)}
-                className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${theme === "dark" ? "bg-gray-700 text-white" : "bg-white text-gray-900"}`}
+                className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${getThemeClasses("bg-white text-gray-900", "bg-gray-700 text-white", theme)}`}
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -226,7 +231,7 @@ export default function CreateSuggestionModal({
             {/* Notes - Optional */}
             <div>
               <label
-                className={`block text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"} mb-2`}
+                className={`block text-sm font-medium ${getThemeClasses("text-gray-700", "text-gray-300", theme)} mb-2`}
               >
                 Notes
               </label>
@@ -234,7 +239,7 @@ export default function CreateSuggestionModal({
                 value={formData.notes}
                 onChange={e => handleInputChange("notes", e.target.value)}
                 rows={2}
-                className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${theme === "dark" ? "bg-gray-700 text-white" : "bg-white text-gray-900"}`}
+                className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${getThemeClasses("bg-white text-gray-900", "bg-gray-700 text-white", theme)}`}
                 placeholder="Additional notes or context..."
               />
             </div>
@@ -242,7 +247,7 @@ export default function CreateSuggestionModal({
             {/* Estimated Cost - Optional */}
             <div>
               <label
-                className={`block text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"} mb-2`}
+                className={`block text-sm font-medium ${getThemeClasses("text-gray-700", "text-gray-300", theme)} mb-2`}
               >
                 Estimated Cost
               </label>
@@ -252,14 +257,14 @@ export default function CreateSuggestionModal({
                 onChange={e =>
                   handleInputChange("estimatedCost", e.target.value)
                 }
-                className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${theme === "dark" ? "bg-gray-700 text-white" : "bg-white text-gray-900"}`}
+                className={`w-full px-3 py-2 border ${getThemeBorderClasses(theme)} rounded-md focus:ring-blue-500 focus:border-blue-500 ${getThemeClasses("bg-white text-gray-900", "bg-gray-700 text-white", theme)}`}
                 placeholder="e.g., £85.00"
               />
             </div>
 
             {error && (
               <div
-                className={`${theme === "dark" ? "text-red-400" : "text-red-600"} text-sm`}
+                className={`${getThemeClasses("text-red-600", "text-red-400", theme)} text-sm`}
               >
                 {error}
               </div>
@@ -270,7 +275,7 @@ export default function CreateSuggestionModal({
               <button
                 type="button"
                 onClick={onClose}
-                className={`px-4 py-2 text-sm font-medium ${theme === "dark" ? "text-gray-300 bg-gray-700 hover:bg-gray-600" : "text-gray-700 bg-gray-100 hover:bg-gray-200"} rounded-md cursor-pointer`}
+                className={`px-4 py-2 text-sm font-medium ${getThemeClasses("text-gray-700 bg-gray-100 hover:bg-gray-200", "text-gray-300 bg-gray-700 hover:bg-gray-600", theme)} rounded-md cursor-pointer`}
                 disabled={isSubmitting}
               >
                 Cancel

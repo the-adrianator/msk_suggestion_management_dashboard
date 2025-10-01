@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { PlusIcon, ListBulletIcon } from "@heroicons/react/24/solid";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
+  getThemeClasses,
   getThemeTextClasses,
   getThemeBorderClasses,
 } from "@/utils/themeClasses";
@@ -22,6 +23,7 @@ interface DashboardPageProps {
   admin: AdminUser;
 }
 
+// Main dashboard page with overview cards, recent suggestions, and quick actions
 export default function DashboardPage({ admin }: DashboardPageProps) {
   const { theme } = useTheme();
   const router = useRouter();
@@ -40,14 +42,17 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
     isVisible: false,
   });
 
+  // Displays toast notification with specified message and type
   const showToast = (message: string, type: "success" | "error" | "info") => {
     setToast({ message, type, isVisible: true });
   };
 
+  // Hides the toast notification
   const hideToast = () => {
     setToast(prev => ({ ...prev, isVisible: false }));
   };
 
+  // Loads initial data for dashboard overview and recent suggestions
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -74,6 +79,7 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
     fetchData();
   }, []);
 
+  // Adds new suggestion to recent list, shows success toast, and reloads data
   const handleCreateSuggestion = (newSuggestion: Suggestion) => {
     // Update recent suggestions list
     setRecentSuggestions(prev => {
@@ -112,7 +118,7 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
             Dashboard
           </h1>
           <p
-            className={`text-sm sm:text-base ${theme === "dark" ? "text-gray-400" : "text-gray-600"} mt-1`}
+            className={`text-sm sm:text-base ${getThemeClasses("text-gray-600", "text-gray-400", theme)} mt-1`}
           >
             Manage MSK health suggestions for your employees
           </p>
@@ -129,7 +135,7 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
           </PermissionGuard>
           <button
             onClick={() => router.push("/suggestions")}
-            className={`inline-flex items-center justify-center px-4 py-2 border ${getThemeBorderClasses(theme)} rounded-md shadow-sm text-sm font-medium ${theme === "dark" ? "text-gray-300 bg-gray-700 hover:bg-gray-600" : "text-gray-700 bg-white hover:bg-gray-50"} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto cursor-pointer`}
+            className={`inline-flex items-center justify-center px-4 py-2 border ${getThemeBorderClasses(theme)} rounded-md shadow-sm text-sm font-medium ${getThemeClasses("text-gray-700 bg-white hover:bg-gray-50", "text-gray-300 bg-gray-700 hover:bg-gray-600", theme)} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto cursor-pointer`}
           >
             <ListBulletIcon className="w-4 h-4 mr-2" />
             View All Suggestions

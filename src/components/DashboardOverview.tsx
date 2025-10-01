@@ -40,12 +40,14 @@ export interface StatCardProps {
   };
 }
 
+// Dashboard overview component displaying key statistics and overdue alert banner
 export default function DashboardOverview({
   suggestions,
 }: DashboardOverviewProps) {
   const { theme } = useTheme();
   const router = useRouter();
 
+  // Calculates dashboard statistics from suggestions data
   const stats = useMemo(() => {
     const total = suggestions.length;
     const pending = suggestions.filter(s => s.status === "pending").length;
@@ -176,7 +178,7 @@ export default function DashboardOverview({
       </div>
 
       {/* Priority and source breakdown */}
-      <div className="grid grid-cols-1 gap-5 xs:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div>
           <h3
             className={`text-lg leading-6 font-medium ${getThemeClasses("text-gray-900", "text-white", theme)} mb-4`}

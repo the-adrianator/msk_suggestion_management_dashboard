@@ -7,12 +7,14 @@ import { formatDate } from "@/utils/dates";
 import { formatCurrency } from "@/utils/currency";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
+  getThemeClasses,
   getThemeTextClasses,
   getThemeBorderClasses,
   getThemeRiskLevelClasses,
 } from "@/utils/themeClasses";
 import StatusUpdateModal from "./StatusUpdateModal";
 import { getStatusBadge, getTypeBadge } from "@/components/ui/Badges";
+import { XMark } from "@/components/ui/SvgIcons";
 
 interface EmployeeDrawerProps {
   employee: Employee | null;
@@ -20,6 +22,7 @@ interface EmployeeDrawerProps {
   onClose: () => void;
 }
 
+// Slide-out drawer displaying employee details and their associated suggestions
 export default function EmployeeDrawer({
   employee,
   isOpen,
@@ -32,6 +35,7 @@ export default function EmployeeDrawer({
     useState<Suggestion | null>(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
+  // Fetches all suggestions for the selected employee from Firestore
   const loadEmployeeSuggestions = useCallback(async () => {
     if (!employee) return;
 
@@ -41,24 +45,27 @@ export default function EmployeeDrawer({
       setSuggestions(employeeSuggestions);
     } catch (error) {
       console.error("Error loading employee suggestions:", error);
-      // Set empty array on error to show "No suggestions found" message
+      // Show empty state if loading fails
       setSuggestions([]);
     } finally {
       setIsLoading(false);
     }
   }, [employee]);
 
+  // Loads suggestions when drawer opens with a selected employee
   useEffect(() => {
     if (employee && isOpen) {
       loadEmployeeSuggestions();
     }
   }, [employee, isOpen, loadEmployeeSuggestions]);
 
+  // Opens update modal for selected suggestion within drawer
   const handleUpdateSuggestion = (suggestion: Suggestion) => {
     setSelectedSuggestion(suggestion);
     setIsUpdateModalOpen(true);
   };
 
+  // Updates suggestion in drawer's local state after modal update
   const handleUpdateFromModal = (updatedSuggestion: Suggestion) => {
     setSuggestions(prev =>
       prev.map(s => (s.id === updatedSuggestion.id ? updatedSuggestion : s)),
@@ -86,7 +93,7 @@ export default function EmployeeDrawer({
 
       {/* Drawer */}
       <div
-        className={`fixed right-0 top-0 h-full w-full max-w-md ${theme === "dark" ? "bg-gray-800/90" : "bg-white/90"} backdrop-blur-md shadow-xl z-50 transform transition-transform duration-300 ease-in-out border-l ${theme === "dark" ? "border-gray-700/50" : "border-white/20"} ${
+        className={`fixed right-0 top-0 h-full w-full max-w-md ${getThemeClasses("bg-white/90 border-white/20", "bg-gray-800/90 border-gray-700/50", theme)} backdrop-blur-md shadow-xl z-50 transform transition-transform duration-300 ease-in-out border-l ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -102,21 +109,11 @@ export default function EmployeeDrawer({
             </h2>
             <button
               onClick={onClose}
-              className={`p-2 ${theme === "dark" ? "hover:bg-gray-700" : "hover:bg-gray-100"} rounded-md cursor-pointer`}
+              className={`p-2 ${getThemeClasses("hover:bg-gray-100", "hover:bg-gray-700", theme)} rounded-md cursor-pointer`}
             >
-              <svg
-                className={`w-5 h-5 ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <XMark
+                className={`w-5 h-5 ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
+              />
             </button>
           </div>
 
@@ -140,7 +137,7 @@ export default function EmployeeDrawer({
                     {employee.name}
                   </h3>
                   <p
-                    className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                    className={`text-sm ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
                   >
                     {employee.jobTitle}
                   </p>
@@ -150,7 +147,7 @@ export default function EmployeeDrawer({
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span
-                    className={`text-sm font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                    className={`text-sm font-medium ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
                   >
                     Department:
                   </span>
@@ -161,7 +158,7 @@ export default function EmployeeDrawer({
 
                 <div className="flex justify-between">
                   <span
-                    className={`text-sm font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                    className={`text-sm font-medium ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
                   >
                     Workstation:
                   </span>
@@ -172,7 +169,7 @@ export default function EmployeeDrawer({
 
                 <div className="flex justify-between">
                   <span
-                    className={`text-sm font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                    className={`text-sm font-medium ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
                   >
                     Risk Level:
                   </span>
@@ -185,7 +182,7 @@ export default function EmployeeDrawer({
 
                 <div className="flex justify-between">
                   <span
-                    className={`text-sm font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                    className={`text-sm font-medium ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
                   >
                     Last Assessment:
                   </span>
@@ -210,7 +207,7 @@ export default function EmployeeDrawer({
                 </div>
               ) : suggestions.length === 0 ? (
                 <p
-                  className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-500"} text-center py-4`}
+                  className={`text-sm ${getThemeClasses("text-gray-500", "text-gray-400", theme)} text-center py-4`}
                 >
                   No suggestions found for this employee.
                 </p>
@@ -219,7 +216,7 @@ export default function EmployeeDrawer({
                   {suggestions.map(suggestion => (
                     <div
                       key={suggestion.id}
-                      className={`${theme === "dark" ? "bg-gray-700" : "bg-gray-50"} rounded-lg p-3`}
+                      className={`${getThemeClasses("bg-gray-50", "bg-gray-700", theme)} rounded-lg p-3`}
                     >
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
@@ -237,19 +234,19 @@ export default function EmployeeDrawer({
                       <div className="flex flex-wrap gap-2 mb-2">
                         {getTypeBadge(suggestion.type, theme)}
                         <span
-                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${theme === "dark" ? "bg-gray-600 text-gray-200" : "bg-gray-200 text-gray-800"}`}
+                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getThemeClasses("bg-gray-200 text-gray-800", "bg-gray-600 text-gray-200", theme)}`}
                         >
                           {suggestion.priority}
                         </span>
                         <span
-                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${theme === "dark" ? "bg-gray-600 text-gray-200" : "bg-gray-200 text-gray-800"}`}
+                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getThemeClasses("bg-gray-200 text-gray-800", "bg-gray-600 text-gray-200", theme)}`}
                         >
                           {suggestion.source}
                         </span>
                       </div>
 
                       <div
-                        className={`text-xs ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                        className={`text-xs ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
                       >
                         <div className="flex justify-between">
                           <span>Updated:</span>
@@ -265,14 +262,12 @@ export default function EmployeeDrawer({
                         )}
                       </div>
 
-                      <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
+                      <div
+                        className={`mt-3 pt-3 border-t ${getThemeBorderClasses(theme)}`}
+                      >
                         <button
                           onClick={() => handleUpdateSuggestion(suggestion)}
-                          className={`w-full px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 cursor-pointer ${
-                            theme === "dark"
-                              ? "bg-blue-600 hover:bg-blue-700 text-white"
-                              : "bg-blue-600 hover:bg-blue-700 text-white"
-                          }`}
+                          className="w-full px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 cursor-pointer"
                         >
                           Update Status
                         </button>

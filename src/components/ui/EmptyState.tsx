@@ -12,6 +12,7 @@ interface EmptyStateProps {
   className?: string;
 }
 
+// Empty state component for displaying "no data" messages with optional icon and action button
 export default function EmptyState({
   title,
   description,

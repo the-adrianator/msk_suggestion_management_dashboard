@@ -18,6 +18,7 @@ export interface StatCardProps {
   };
 }
 
+// Card component for displaying a single statistic with icon, value, and optional trend
 export default function StatCard({
   title,
   value,

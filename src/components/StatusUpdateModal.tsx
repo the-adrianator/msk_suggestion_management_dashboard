@@ -18,6 +18,7 @@ interface StatusUpdateModalProps {
   onUpdate: (updatedSuggestion: Suggestion) => void;
 }
 
+// Modal for updating suggestion status, notes, and estimated cost
 export default function StatusUpdateModal({
   suggestion,
   isOpen,
@@ -33,6 +34,7 @@ export default function StatusUpdateModal({
   const [isUpdating, setIsUpdating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Submits updated suggestion data to Firestore and triggers parent callback
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsUpdating(true);
@@ -47,7 +49,7 @@ export default function StatusUpdateModal({
 
       await updateSuggestion(suggestion.id, updateData);
 
-      // Create updated suggestion object
+      // Build updated suggestion object for optimistic UI update
       const updatedSuggestion: Suggestion = {
         ...suggestion,
         ...updateData,
@@ -160,7 +162,7 @@ export default function StatusUpdateModal({
             {/* Notes */}
             <div>
               <label
-                className={`block text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"} mb-2`}
+                className={`block text-sm font-medium ${getThemeClasses("text-gray-700", "text-gray-300", theme)} mb-2`}
               >
                 Notes
               </label>

@@ -15,6 +15,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Validates credentials and triggers login callback on success
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -30,6 +31,7 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
     }
   };
 
+  // Pre-fills form with demo admin credentials
   const useDemoCredentials = () => {
     setEmail("hsmanager@company.com");
     setPassword("admin123");

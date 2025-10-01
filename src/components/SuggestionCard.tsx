@@ -17,6 +17,7 @@ import {
   getPriorityBadge,
   getTypeBadge,
 } from "@/components/ui/Badges";
+import { ArrowUp } from "@/components/ui/SvgIcons";
 
 interface SuggestionCardProps {
   suggestion: Suggestion;
@@ -28,6 +29,7 @@ interface SuggestionCardProps {
   onEmployeeClick?: (employeeId: string) => void;
 }
 
+// Card component displaying suggestion details with expandable content and update action
 export default function SuggestionCard({
   suggestion,
   employeeName,
@@ -73,35 +75,9 @@ export default function SuggestionCard({
               className={`p-1 text-gray-400 ${getThemeClasses("hover:text-gray-600", "hover:text-gray-300", theme)} focus:outline-none focus:ring-2 focus:ring-blue-500 rounded cursor-pointer`}
               aria-label={isCardExpanded ? "Collapse card" : "Expand card"}
             >
-              {isCardExpanded ? (
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 15l7-7 7 7"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              )}
+              <ArrowUp
+                className={`w-4 h-4 ${!isCardExpanded ? "rotate-180" : ""}`}
+              />
             </button>
           )}
         </div>
@@ -132,7 +108,7 @@ export default function SuggestionCard({
         <>
           {/* Additional info */}
           <div
-            className={`space-y-2 text-xs ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+            className={`space-y-2 text-xs ${getThemeClasses("text-gray-500", "text-gray-400", theme)}`}
           >
             <div className="flex justify-between">
               <span>Last updated:</span>

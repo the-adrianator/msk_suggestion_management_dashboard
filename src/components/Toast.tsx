@@ -13,6 +13,7 @@ interface ToastProps {
   duration?: number;
 }
 
+// Toast notification component with auto-dismiss timer and theme-aware styling
 export default function Toast({
   message,
   type,
@@ -21,6 +22,8 @@ export default function Toast({
   duration = 3000,
 }: ToastProps) {
   const { theme } = useTheme();
+
+  // Automatically dismiss toast after specified duration
   useEffect(() => {
     if (isVisible) {
       const timer = setTimeout(() => {

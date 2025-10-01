@@ -15,6 +15,7 @@ import {
   getPriorityBadge,
   getTypeBadge,
 } from "@/components/ui/Badges";
+import { XMark } from "@/components/ui/SvgIcons";
 
 interface SuggestionDetailModalProps {
   suggestion: Suggestion | null;
@@ -24,6 +25,7 @@ interface SuggestionDetailModalProps {
   employeeName: string;
 }
 
+// Modal displaying comprehensive suggestion details with all fields and metadata
 export default function SuggestionDetailModal({
   suggestion,
   isOpen,
@@ -37,7 +39,7 @@ export default function SuggestionDetailModal({
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm overflow-y-auto h-full w-full z-50">
       <div
-        className={`relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-2xl rounded-lg ${theme === "dark" ? "bg-gray-800/90" : "bg-white/90"} backdrop-blur-md ${theme === "dark" ? "border-gray-700/50" : "border-white/20"}`}
+        className={`relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-2xl rounded-lg ${getThemeClasses("bg-white/90 border-white/20", "bg-gray-800/90 border-gray-700/50", theme)} backdrop-blur-md`}
       >
         {/* Header */}
         <div className={`px-6 py-4 border-b ${getThemeBorderClasses(theme)}`}>
@@ -49,21 +51,9 @@ export default function SuggestionDetailModal({
             </h2>
             <button
               onClick={onClose}
-              className={`${theme === "dark" ? "text-gray-400 hover:text-gray-300" : "text-gray-400 hover:text-gray-600"} focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1 cursor-pointer`}
+              className={`${getThemeClasses("text-gray-400 hover:text-gray-600", "text-gray-400 hover:text-gray-300", theme)} focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1 cursor-pointer`}
             >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <XMark className="h-6 w-6" />
             </button>
           </div>
         </div>
@@ -73,7 +63,7 @@ export default function SuggestionDetailModal({
           {/* Employee and Description */}
           <div>
             <h3
-              className={`text-sm font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-500"} mb-2`}
+              className={`text-sm font-medium ${getThemeClasses("text-gray-500", "text-gray-400", theme)} mb-2`}
             >
               Employee
             </h3>
@@ -84,7 +74,7 @@ export default function SuggestionDetailModal({
             </p>
 
             <h3
-              className={`text-sm font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-500"} mb-2`}
+              className={`text-sm font-medium ${getThemeClasses("text-gray-500", "text-gray-400", theme)} mb-2`}
             >
               Description
             </h3>
@@ -163,7 +153,7 @@ export default function SuggestionDetailModal({
                 Notes
               </h3>
               <p
-                className={`text-sm ${getThemeTextClasses(theme)} ${theme === "dark" ? "bg-gray-700" : "bg-gray-50"} p-3 rounded-md`}
+                className={`text-sm ${getThemeTextClasses(theme)} ${getThemeClasses("bg-gray-50", "bg-gray-700", theme)} p-3 rounded-md`}
               >
                 {suggestion.notes}
               </p>
