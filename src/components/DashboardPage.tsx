@@ -27,7 +27,7 @@ interface DashboardPageProps {
 export default function DashboardPage({ admin }: DashboardPageProps) {
   const { theme } = useTheme();
   const router = useRouter();
-  const { suggestions, reload } = useSuggestions();
+  const { suggestions, reload, isLoading } = useSuggestions();
   const [showAllRecent, setShowAllRecent] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [recentSuggestions, setRecentSuggestions] = useState<Suggestion[]>([]);
@@ -143,7 +143,7 @@ export default function DashboardPage({ admin }: DashboardPageProps) {
         </div>
       </div>
 
-      <DashboardOverview suggestions={suggestions} />
+      <DashboardOverview suggestions={suggestions} isLoading={isLoading} />
 
       <RecentSuggestions
         recentSuggestions={recentSuggestions}

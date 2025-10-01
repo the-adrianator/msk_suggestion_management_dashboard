@@ -24,25 +24,12 @@ import {
 } from "@/utils/themeClasses";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useRouter } from "next/navigation";
-
-interface DashboardOverviewProps {
-  suggestions: Suggestion[];
-}
-
-export interface StatCardProps {
-  title: string;
-  value: number;
-  icon: React.ReactNode;
-  color: "blue" | "green" | "yellow" | "red" | "purple";
-  trend?: {
-    value: number;
-    isPositive: boolean;
-  };
-}
+import { StatCardProps, DashboardOverviewProps } from "@/types";
 
 // Dashboard overview component displaying key statistics and overdue alert banner
 export default function DashboardOverview({
   suggestions,
+  isLoading = false,
 }: DashboardOverviewProps) {
   const { theme } = useTheme();
   const router = useRouter();
@@ -206,8 +193,30 @@ export default function DashboardOverview({
         </div>
       </div>
 
-      {/* Overdue suggestions alert */}
-      {stats.overdue > 0 && (
+      {/* Overdue suggestions section */}
+      {isLoading ? (
+        // Loading state: show skeleton banner
+        <div
+          className={`${getThemeClasses("bg-white border-gray-200", "bg-gray-800 border-gray-700", theme)} rounded-md p-4 animate-pulse`}
+        >
+          <div className="flex items-center gap-3">
+            <div
+              className={`h-6 w-6 rounded border self-start ${getThemeClasses("bg-gray-200 border-gray-200", "bg-gray-700 border-gray-700", theme)}`}
+            />
+            <div className="flex-1">
+              <div
+                className={`h-4 w-40 rounded ${getThemeClasses("bg-gray-200 border-gray-200", "bg-gray-700 border-gray-700", theme)} mb-4`}
+              />
+              <div
+                className={`h-3 w-64 rounded mb-2 ${getThemeClasses("bg-gray-200 border-gray-200", "bg-gray-700 border-gray-700", theme)}`}
+              />
+            </div>
+            <div
+              className={`h-8 w-28 rounded ${getThemeClasses("bg-gray-200 border-gray-200", "bg-gray-700 border-gray-700", theme)}`}
+            />
+          </div>
+        </div>
+      ) : stats.overdue > 0 ? (
         <div
           className={`${getThemeWarningBgClasses(theme)} border ${getThemeWarningBorderClasses(theme)} rounded-md p-4`}
         >
@@ -240,6 +249,34 @@ export default function DashboardOverview({
               >
                 View Overdue
               </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        // Fallback: no overdue suggestions
+        <div
+          className={`${getThemeClasses("bg-green-50", "bg-green-900/20", theme)} border ${getThemeClasses("border-green-200", "border-green-800", theme)} rounded-md p-4`}
+        >
+          <div className="flex items-center gap-3">
+            <CheckCircle
+              className={getThemeClasses(
+                "text-green-600",
+                "text-green-300",
+                theme,
+              )}
+            />
+            <div className="flex-1">
+              <h3
+                className={`text-sm font-medium ${getThemeClasses("text-green-800", "text-green-200", theme)}`}
+              >
+                No Overdue Suggestions
+              </h3>
+              <p
+                className={`mt-1 text-sm ${getThemeClasses("text-green-700", "text-green-300", theme)}`}
+              >
+                All suggestions are within the last 30 days. Great job staying
+                on top of things.
+              </p>
             </div>
           </div>
         </div>

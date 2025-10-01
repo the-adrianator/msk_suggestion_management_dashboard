@@ -93,3 +93,8 @@ export interface StatCardProps {
     isPositive: boolean;
   };
 }
+
+export interface DashboardOverviewProps {
+  suggestions: Suggestion[];
+  isLoading?: boolean;
+}
