@@ -468,6 +468,7 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
                 <SuggestionCard
                   suggestion={suggestion}
                   employeeName={employee.name}
+                  employeeDepartment={employee.department}
                   onUpdate={handleOpenModal}
                   showExpandButton={true}
                   onEmployeeClick={employeeId => {
@@ -494,6 +495,7 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
               key={suggestion.id}
               suggestion={suggestion}
               employeeName={employee.name}
+              employeeDepartment={employee.department}
               onUpdate={handleOpenModal}
               showExpandButton={true}
               onEmployeeClick={employeeId => {
