@@ -66,11 +66,11 @@ export async function seedFirestoreData(): Promise<void> {
       // Create mapping from existing employees
       const employeeIdMap = new Map<string, string>();
 
-      existingEmployees.docs.forEach((doc) => {
+      existingEmployees.docs.forEach(doc => {
         const employeeData = doc.data();
         // Try to match by name for existing employees
         const matchingEmployee = expandedSampleData.employees.find(
-          (emp) => emp.name === employeeData.name,
+          emp => emp.name === employeeData.name,
         );
         if (matchingEmployee) {
           employeeIdMap.set(matchingEmployee.id, doc.id);
