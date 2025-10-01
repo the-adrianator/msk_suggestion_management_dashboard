@@ -366,7 +366,7 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
           Showing {filteredSuggestions.length} of {suggestions.length}{" "}
           suggestions
         </p>
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-col gap-2 sm:gap-0 xs:flex-row justify-center md:justify-end items-center sm:space-x-3 w-full">
           {/* View Toggle Button */}
           <div
             className={`hidden md:flex items-center ${getThemeClasses("bg-gray-100", "bg-gray-700", theme)} rounded-lg p-1`}
@@ -414,7 +414,7 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
           <PermissionGuard permission="create_suggestions">
             <button
               onClick={() => setIsCreateModalOpen(true)}
-              className="inline-flex items-center px-4 py-1.5 md:py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+              className="inline-flex items-center justify-center px-3 py-2.5 md:py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer w-full sm:w-auto"
             >
               <PlusIcon className="w-4 h-4 mr-2" />
               Create Suggestion
@@ -424,7 +424,7 @@ export default function SuggestionTable({ admin }: SuggestionTableProps) {
           {/* Overdue toggle */}
           <button
             onClick={toggleOverdueOnly}
-            className={`inline-flex items-center px-3 py-2.5 text-sm font-medium rounded-md focus:outline-none focus:ring-2 cursor-pointer mr-1 ${
+            className={`inline-flex items-center justify-center px-3 py-2.5 text-sm font-medium rounded-md focus:outline-none focus:ring-2 cursor-pointer w-full sm:w-auto mr-1 ${
               overdueOnly
                 ? "bg-amber-500 text-white hover:bg-amber-600 focus:ring-amber-400"
                 : `${getThemeClasses("bg-gray-100 text-gray-700 hover:bg-gray-200", "bg-gray-700 text-gray-200 hover:bg-gray-600", theme)} focus:ring-blue-500`

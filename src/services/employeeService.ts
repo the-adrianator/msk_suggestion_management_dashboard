@@ -5,7 +5,6 @@ import {
   getDoc,
   query,
   orderBy,
-  where,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Employee } from "@/types";
